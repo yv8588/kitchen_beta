@@ -1,5 +1,9 @@
+/**
+ * beta version for kitchen managment.
+ * @author yoad
+ * @version 2.0
+ */
 package com.example.kitchen_beta;
-
 import static com.example.kitchen_beta.FBref.AUTH;
 
 import androidx.annotation.NonNull;
@@ -28,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         password=(EditText)findViewById(R.id.password);
         mail=(EditText)findViewById(R.id.mail);
     }
+    /**
+     *when the operation occur user is being crated in the db.
+     * <p>
+     * @param emailId -users email.
+     * @param password - users password.
+     */
     protected final void createUserAuthWithEmailAndPassword(String emailId, String password) {
 
         AUTH.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
@@ -41,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
+    /**
+     * creates a user that is already .
+     *  <p>
+     * @param view the sign in button.
+     */
     public void register(View view) {
         p=password.getText().toString();
         m=mail.getText().toString();
@@ -69,12 +83,21 @@ public class MainActivity extends AppCompatActivity {
         password.setHint("password");
     }
 
-
+    /**
+     *crates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
     }
+    /**
+     * when item is selected in he options menu it goes to the right activity.
+     * <p>
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent si;
@@ -87,12 +110,15 @@ public class MainActivity extends AppCompatActivity {
             si=new Intent(this,MainActivity.class);
             startActivity(si);
         }
-        // else if(s.equals("TV")){
-        //   si=new Intent(this,update.class);
-        // startActivity(si);
-        //}
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * signs in user.
+     * @param mail users mail.
+     * @param password users password.
+     * @return wheter task is successful.
+     */
     public boolean sign(String mail,String password){
         AUTH.signInWithEmailAndPassword(mail, password).addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
 
@@ -108,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * signs in a user
+     * @param view the log in button.
+     */
     public void signIn(View view) {
         p=password.getText().toString();
         m=mail.getText().toString();
