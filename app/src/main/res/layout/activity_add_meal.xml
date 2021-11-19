@@ -4,34 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".addMeal">
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4" />
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="user name" />
-
-        <EditText
-            android:id="@+id/mail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="mail"
-            android:inputType="textEmailAddress" />
 
         <Space
             android:layout_width="match_parent"
@@ -39,57 +23,90 @@
             android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="password"
-            android:inputType="textPassword" />
+            android:hint="meal name" />
 
-        <Button
+        <EditText
+            android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:onClick="register"
-            android:text="register" />
+            android:hint="meal price" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:hint="choose what kind of food the meal is" />
+
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3">
 
             <RadioButton
-                android:id="@+id/kManager"
+                android:id="@+id/first"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="kitchen manager" />
+                android:text="first" />
 
             <RadioButton
-                android:id="@+id/waiter"
+                android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="waiter" />
+                android:text="main" />
 
             <RadioButton
-                android:id="@+id/wManager"
+                android:id="@+id/desert"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="waiter manager" />
+                android:text="desert" />
+
+            <RadioButton
+                android:id="@+id/drink"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="drink" />
         </RadioGroup>
 
         <Button
+            android:id="@+id/uploadp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="sign in"
-            android:onClick="signIn"/>
+            android:text="upload image"
+            android:onClick="upload"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" />
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/new_meal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="add meal"
+            android:onClick="add"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 </LinearLayout>

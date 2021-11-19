@@ -4,14 +4,13 @@ public class User {
     private String user_id;
     private int type;
     private String user_name;
-
     /**
      *
      * @param user_id the users auth id.
      * @param type the user type.
      * @param user_name users name.
      */
-    public void User(String user_id,int type,String user_name){
+    public  User(String user_id,int type,String user_name){
         this.user_id=user_id;
         this.user_name=user_name;
         this.type=type;

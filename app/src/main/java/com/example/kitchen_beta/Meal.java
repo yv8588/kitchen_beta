@@ -1,11 +1,10 @@
 package com.example.kitchen_beta;
 
-public class meal {
+public class Meal {
     private String name;
     private double price;
     private String image;
-    String category;
-
+    private String category;
     /**
      *
      * @param name meal name.
@@ -13,13 +12,12 @@ public class meal {
      * @param image meals image.
      * @param category meal category .
      */
-    public void Meal(String name,double price,String image,String category){
+    public Meal(String name, double price, String image, String category) {
         this.name=name;
         this.price=price;
         this.image=image;
         this.category=category;
-   }
-
+    }
     /**
      * @return the price.
      */

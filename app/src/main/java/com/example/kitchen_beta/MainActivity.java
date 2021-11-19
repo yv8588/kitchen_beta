@@ -5,6 +5,7 @@
  */
 package com.example.kitchen_beta;
 import static com.example.kitchen_beta.FBref.AUTH;
+import static com.example.kitchen_beta.FBref.refUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,21 +17,57 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
-    EditText password,mail;
-    String p,m, userid;
+    EditText password,mail,name;
+    String p,m, userid,userName;
     boolean prove;
+    RadioButton wManager,kManager,waiter;
+    int type=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         password=(EditText)findViewById(R.id.password);
         mail=(EditText)findViewById(R.id.mail);
+        name=(EditText)findViewById(R.id.name);
+        waiter=(RadioButton) findViewById(R.id.waiter);
+        kManager=(RadioButton) findViewById(R.id.kManager);
+        wManager=(RadioButton) findViewById(R.id.wManager);
+    }
+    /**
+     *crates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    /**
+     * when item is selected in he options menu it goes to the right activity.
+     * <p>
+     *
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent si;
+        String s=item.getTitle().toString();
+        if(s.equals("Auth")) {
+            si = new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
+        else if (s.equals("Gallery")){
+            si=new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
+        return super.onOptionsItemSelected(item);
     }
     /**
      *when the operation occur user is being crated in the db.
@@ -68,11 +105,26 @@ public class MainActivity extends AppCompatActivity {
         else if(Patterns.EMAIL_ADDRESS.matcher(m).matches()){
             createUserAuthWithEmailAndPassword(m,p);
             Toast.makeText(MainActivity.this,"user registered",Toast.LENGTH_SHORT).show();
+            userName=name.getText().toString();
             FirebaseUser user = AUTH.getCurrentUser();
+            if(wManager.isChecked()){
+                type=3;
+
+            }
+            else if(kManager.isChecked()){
+                type=2;
+            }
+            else if(waiter.isChecked()){
+                type=0;
+            }
+            else{
+                Toast.makeText(this, "please enter type of user", Toast.LENGTH_SHORT).show();
+            }
             if(user!=null) {
                 userid  = user.getUid();
+                User user1=new User(userid,type,userName);
+                refUser.child(userid).setValue(user1);
             }
-            Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(MainActivity.this,"email does not exist",Toast.LENGTH_SHORT).show();
@@ -81,36 +133,6 @@ public class MainActivity extends AppCompatActivity {
         password.setText("");
         mail.setHint("mail");
         password.setHint("password");
-    }
-
-    /**
-     *crates options menu
-     * <p>
-     * @param menu the xml general menu.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    /**
-     * when item is selected in he options menu it goes to the right activity.
-     * <p>
-     *
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent si;
-        String s=item.getTitle().toString();
-        if(s.equals("Auth")) {
-            si = new Intent(this,MainActivity.class);
-            startActivity(si);
-        }
-        else if (s.equals("Gallery")){
-            si=new Intent(this,MainActivity.class);
-            startActivity(si);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**

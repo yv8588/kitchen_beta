@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitchen_beta">
         <activity
+            android:name=".addMeal"
+            android:exported="false" />
+        <activity
             android:name=".waiter_manager"
             android:exported="false" />
         <activity
