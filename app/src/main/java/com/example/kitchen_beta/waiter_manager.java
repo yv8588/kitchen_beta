@@ -1,5 +1,6 @@
 package com.example.kitchen_beta;
 
+import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refBon;
 import static com.example.kitchen_beta.FBref.refMeal;
 import static com.example.kitchen_beta.FBref.refUser;
@@ -41,7 +42,7 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onStart() {
         super.onStart();
-        Query query=refBon.orderByChild("time");
+        Query query=refActive.orderByChild("time");
         /**
          * gets the user object in the form of an object then casted to user.
          */
@@ -93,7 +94,8 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
                     Bon b = meal_read.get(i);
                     b.setNote(forUse);
                     meal_read.set(i, b);
-                    refMeal.child("bon").setValue(b);
+                    meal_view.set(i,b.toString());
+                    refMeal.child("active_bon").setValue(b);
                     meal_list.deferNotifyDataSetChanged();
                 }
             }

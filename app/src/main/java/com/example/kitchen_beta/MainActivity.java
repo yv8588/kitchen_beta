@@ -47,35 +47,6 @@ public class MainActivity extends AppCompatActivity {
         wManager=(RadioButton) findViewById(R.id.wManager);
     }
     /**
-     *creates options menu
-     * <p>
-     * @param menu the xml general menu.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    /**
-     * when item is selected in he options menu it goes to the right activity.
-     * <p>
-     *
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent si;
-        String s=item.getTitle().toString();
-        if(s.equals("credit")) {
-            si = new Intent(this,MainActivity.class);
-            startActivity(si);
-        }
-        else if (s.equals("Gallery")){
-            si=new Intent(this,MainActivity.class);
-            startActivity(si);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    /**
      *when the operation occur user is being crated in the db.
      * <p>
      * @param emailId -users email.
@@ -233,5 +204,30 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+    /**
+     *creates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    /**
+     * when item is selected in he options menu it goes to the right activity.
+     * <p>
+     * @param item the menu item selected.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent si;
+        String s=item.getTitle().toString();
+        if(s.equals("credit")) {
+            si = new Intent(this,credits.class);
+            startActivity(si);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

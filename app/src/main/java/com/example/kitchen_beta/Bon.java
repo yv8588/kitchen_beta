@@ -1,8 +1,9 @@
 package com.example.kitchen_beta;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Bon {
+public class Bon  implements Serializable {
     private String time;
     private ArrayList<Meal>b;
     private String date;
