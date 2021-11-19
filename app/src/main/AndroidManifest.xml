@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitchen_beta">
         <activity
+            android:name=".show_meals"
+            android:exported="false" />
+        <activity
             android:name=".credits"
             android:exported="false" />
         <activity
