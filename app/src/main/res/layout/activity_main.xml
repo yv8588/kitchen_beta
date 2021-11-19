@@ -15,7 +15,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4" />
+            android:layout_weight="2" />
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -33,11 +33,6 @@
             android:hint="mail"
             android:inputType="textEmailAddress" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
@@ -47,12 +42,6 @@
             android:hint="password"
             android:inputType="textPassword" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="register"
-            android:text="register" />
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -84,12 +73,19 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="sign in"
-            android:onClick="signIn"/>
+            android:onClick="register"
+            android:text="register" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="signIn"
+            android:text="sign in" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" />
+            android:layout_weight="2" />
     </LinearLayout>
 </LinearLayout>

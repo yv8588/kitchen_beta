@@ -10,6 +10,7 @@ import static com.example.kitchen_beta.FBref.refUser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -23,6 +24,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
     EditText password,mail,name;
     String p,m, userid,userName;
@@ -41,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         wManager=(RadioButton) findViewById(R.id.wManager);
     }
     /**
-     *crates options menu
+     *creates options menu
      * <p>
      * @param menu the xml general menu.
      */
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent si;
         String s=item.getTitle().toString();
-        if(s.equals("Auth")) {
+        if(s.equals("credit")) {
             si = new Intent(this,MainActivity.class);
             startActivity(si);
         }
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     /**
-     * creates a user that is already .
+     * creates a user .
      *  <p>
      * @param view the sign in button.
      */
@@ -133,13 +139,14 @@ public class MainActivity extends AppCompatActivity {
         password.setText("");
         mail.setHint("mail");
         password.setHint("password");
+        moveUser(MainActivity.this);
     }
 
     /**
      * signs in user.
      * @param mail users mail.
      * @param password users password.
-     * @return wheter task is successful.
+     * @return whether task is successful.
      */
     public boolean sign(String mail,String password){
         AUTH.signInWithEmailAndPassword(mail, password).addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * signs in a user
+     * signs in a user and moving him to the right activity.
      * @param view the log in button.
      */
     public void signIn(View view) {
@@ -182,5 +189,49 @@ public class MainActivity extends AppCompatActivity {
         password.setText("");
         mail.setHint("mail");
         password.setHint("password");
+        moveUser(MainActivity.this);
+    }
+
+    /**
+     * moves user to the right activity based on his type.
+     * @param context activity context.
+     */
+    public void moveUser(Context context){
+        FirebaseUser user = AUTH.getCurrentUser();
+        final Object[] u = new Object[1];
+        if(user !=null){
+            Query query=refUser.orderByChild("user_id").equalTo(userid);
+            /**
+             * gets the user object in the form of an object then casted to user.
+             */
+            ValueEventListener vel=new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    u[0] =snapshot.getValue();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            };
+            query.addListenerForSingleValueEvent(vel);
+            User n =(User)u[0];
+            Intent si;
+            switch(n.getType()){
+                case 0:
+                    si =new Intent(context, com.example.kitchen_beta.waiter.class);
+                    startActivity(si);
+                    break;
+                case 1:
+                    si =new Intent(context,kitchen_manager.class);
+                    startActivity(si);
+                    break;
+                case 2:
+                    si =new Intent(context,waiter_manager.class);
+                    startActivity(si);
+                    break;
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class addMeal extends AppCompatActivity {
-    private static final String TAG = "addmMeal";
+    private static final String TAG = "addMeal";
     ProgressDialog progressDialog;
     private int Read=111;
     private int File=222;
@@ -58,6 +58,10 @@ public class addMeal extends AppCompatActivity {
         path="images/meal_photo/"+m+"/"+name+".jpg";
         StorageReference srf=storageRef.child(path);
         srf.putFile(u).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            /**
+             * on file upload success.
+             * @param taskSnapshot
+             */
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(addMeal.this,"image uploaded sucessfully",Toast.LENGTH_SHORT).show();
@@ -70,23 +74,40 @@ public class addMeal extends AppCompatActivity {
         });
         progressDialog.dismiss();
     }
+
+    /**
+     * adds meal to db.
+     * @param view the button that got clicked(add meal);
+     */
     public void add(View view) {
-       String n= name.getText().toString();
-       String p=price.getText().toString();
-        if(ContextCompat.checkSelfPermission(addMeal.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(addMeal.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, Read);
-        }
-        else {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            startActivityForResult(intent, File);
-            mealPath(type,uri,n);
-            Meal m=new Meal(n,Double.parseDouble(p),path,type);
-            refMeal.child(n).setValue(m);
+        String n = name.getText().toString();
+        String p = price.getText().toString();
+        if (first.isChecked()) {
+            type = "first";
+        } else if (main.isChecked()) {
+            type = "main";
+        } else if (desert.isChecked()) {
+            type = "desert";
+        } else if (drink.isChecked()) {
+            type = "drink";
+        } else {
+            Toast.makeText(this, "please choose meal type", Toast.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(addMeal.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(addMeal.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, Read);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, File);
+                if (type != null) {
+                    mealPath(type, uri, n);
+                    Meal m = new Meal(n, Double.parseDouble(p), path, type);
+                    refMeal.child("user").setValue(m);
+                }
+            }
         }
     }
 
     /**
-     * when choosing imag
+     * when choosing image opens gallery and makes uri.
      * @param requestCode
      * @param resultCode
      * @param data
@@ -100,21 +121,6 @@ public class addMeal extends AppCompatActivity {
                 progressDialog.setMessage("Uploading image...");
                 progressDialog.show();
                 uri= data.getData();
-                if(first.isChecked()) {
-                    type = "first";
-                }
-                else if(main.isChecked()){
-                    type="main";
-                }
-                else if(desert.isChecked()){
-                    type="desert";
-                }
-                else if(drink.isChecked()) {
-                    type = "drink";
-                }
-                else{
-                    Toast.makeText(this, "please choose meal type", Toast.LENGTH_SHORT).show();
-                }
             }
 
         }

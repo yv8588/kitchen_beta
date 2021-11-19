@@ -2,11 +2,12 @@ package com.example.kitchen_beta;
 
 import java.util.ArrayList;
 
-public class bon {
+public class Bon {
     private String time;
-    private ArrayList<meal>b;
+    private ArrayList<Meal>b;
     private String date;
     private boolean above;
+    private String note;
 
     /**
      * creats new bon.
@@ -15,17 +16,18 @@ public class bon {
      * @param date the date the bon was created.
      * @param above
      */
-    public void Bon(String time,ArrayList<meal>b,String date,boolean above){
+    public void Bon(String time,ArrayList<Meal>b,String date,boolean above,String note){
         this.time=time;
         this.b=b;
         this.date=date;
         this.above=above;
+        this.note=note;
     }
 
     /**
      * @return the meals in the bon.
      */
-    public ArrayList<meal> getB() {
+    public ArrayList<Meal> getB() {
         return b;
     }
 
@@ -49,12 +51,19 @@ public class bon {
     public boolean isAbove() {
         return above;
     }
+    /**
+     *
+     * @return the note of the bon.
+     */
+    public String getNote() {
+        return note;
+    }
 
     /**
      * sets the Array list of meals.
      * @param b the Array list of meals.
      */
-    public void setB(ArrayList<meal> b) {
+    public void setB(ArrayList<Meal> b) {
         this.b = b;
     }
 
@@ -80,5 +89,36 @@ public class bon {
      */
     public void setAbove(boolean above) {
         this.above = above;
+    }
+
+    /**
+     * sets new note/
+     * @param note the new note.
+     */
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    @Override
+    /**
+     * makes a string out of all the object parameters.
+     */
+    public String toString() {
+        if (note == null) {
+            return "Bon{" +
+                    "time='" + time + '\'' +
+                    ", b=" + b +
+                    ", date='" + date + '\'' +
+                    ", above=" + above +
+                    '}';
+        }
+        else {
+            return "Bon{" +
+                    "time='" + time + '\'' +
+                    ", b=" + b +
+                    ", date='" + date + '\'' +
+                    ", above=" + above + "notes"+note+
+                    '}';
+        }
     }
 }
