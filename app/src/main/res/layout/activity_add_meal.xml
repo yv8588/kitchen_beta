@@ -75,20 +75,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="drink" />
+
+            <EditText
+                android:id="@+id/des"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="add meal description"
+                android:inputType="textPersonName" />
         </RadioGroup>
-
-        <Button
-            android:id="@+id/uploadp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="upload image"
-            android:onClick="upload"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/new_meal"

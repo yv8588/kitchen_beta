@@ -5,6 +5,7 @@ public class Meal {
     private double price;
     private String image;
     private String category;
+    private String about;
     /**
      *
      * @param name meal name.
@@ -12,7 +13,7 @@ public class Meal {
      * @param image meals image.
      * @param category meal category .
      */
-    public Meal(String name, double price, String image, String category) {
+    public Meal(String name, double price, String image, String category,String about) {
         this.name=name;
         this.price=price;
         this.image=image;
@@ -41,6 +42,12 @@ public class Meal {
      */
     public String getName() {
         return name;
+    }
+    /**
+     * @return the meal description.
+     */
+    public String getAbout() {
+        return about;
     }
 
     /**
@@ -71,6 +78,13 @@ public class Meal {
     public void setPrice(double price) {
         this.price = price;
     }
+    /**
+     * sets meals description.
+     * @param about meals description.
+     */
+    public void setAbout(String about) {
+        this.about = about;
+    }
 
     @Override
     public String toString() {
@@ -78,7 +92,7 @@ public class Meal {
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", image='" + image + '\'' +
-                ", category='" + category + '\'' +
+                ", category='" + category + '\'' +about+'\''+
                 '}';
     }
 }

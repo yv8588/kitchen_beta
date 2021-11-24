@@ -33,7 +33,7 @@ public class addMeal extends AppCompatActivity {
     private int Read=111;
     private int File=222;
     RadioButton first,main,desert,drink;
-    EditText name,price;
+    EditText name,price,des;
     String type,path;
     Uri uri;
     @Override
@@ -46,6 +46,7 @@ public class addMeal extends AppCompatActivity {
         drink=(RadioButton) findViewById(R.id.drink);
         name=(EditText)findViewById(R.id.name);
         price=(EditText) findViewById(R.id.price);
+        des=(EditText) findViewById(R.id.des);
     }
 
     /**
@@ -82,25 +83,31 @@ public class addMeal extends AppCompatActivity {
     public void add(View view) {
         String n = name.getText().toString();
         String p = price.getText().toString();
-        if (first.isChecked()) {
-            type = "first";
-        } else if (main.isChecked()) {
-            type = "main";
-        } else if (desert.isChecked()) {
-            type = "desert";
-        } else if (drink.isChecked()) {
-            type = "drink";
-        } else {
-            Toast.makeText(this, "please choose meal type", Toast.LENGTH_SHORT).show();
-            if (ContextCompat.checkSelfPermission(addMeal.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(addMeal.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, Read);
+        String desc=des.getText().toString();
+        if(n==null||p==null||desc==null){
+            Toast.makeText(addMeal.this, "enter all meal info", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if (first.isChecked()) {
+                type = "first";
+            } else if (main.isChecked()) {
+                type = "main";
+            } else if (desert.isChecked()) {
+                type = "desert";
+            } else if (drink.isChecked()) {
+                type = "drink";
             } else {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(intent, File);
-                if (type != null) {
-                    mealPath(type, uri, n);
-                    Meal m = new Meal(n, Double.parseDouble(p), path, type);
-                    refMeal.child("user").setValue(m);
+                Toast.makeText(this, "please choose meal type", Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(addMeal.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(addMeal.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, Read);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, File);
+                    if (type != null) {
+                        mealPath(type, uri, n);
+                        Meal m = new Meal(n, Double.parseDouble(p), path, type,desc);
+                        refMeal.child("meal").setValue(m);
+                    }
                 }
             }
         }
