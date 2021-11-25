@@ -34,12 +34,11 @@ public class CustomAdapter extends BaseAdapter {
      * constactor.
      * @param context app context
      * @param mealList the list.
-     * @param inflater the layout inflater.
      */
-    public CustomAdapter(Context context,ArrayList<Meal>mealList,LayoutInflater inflater){
+    public CustomAdapter(Context context,ArrayList<Meal>mealList){
         this.context=context;
         this.mealList=mealList;
-        this.inflater=inflater;
+        inflater=(LayoutInflater.from(context));
     }
 
     /**

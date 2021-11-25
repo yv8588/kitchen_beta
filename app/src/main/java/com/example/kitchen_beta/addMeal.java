@@ -115,9 +115,9 @@ public class addMeal extends AppCompatActivity {
 
     /**
      * when choosing image opens gallery and makes uri.
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode the request code.
+     * @param resultCode the result code.
+     * @param data the data.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
