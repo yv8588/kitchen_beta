@@ -90,7 +90,8 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
                 dialog.dismiss();
             }
         });
-
+    AlertDialog ad=adb.create();
+    ad.show();
     }
 
     @Override
@@ -105,7 +106,10 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("kitchen manager");
+        menu.add("add meal");
+        menu.add("show meals");
+        menu.add("waiter");
+        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -121,12 +125,16 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
             si = new Intent(this,credits.class);
             startActivity(si);
         }
-        else if (s.equals("login")){
-            si=new Intent(this,MainActivity.class);
+        else if(s.equals("log in")) {
+            si = new Intent(this,credits.class);
             startActivity(si);
         }
-        else if(s.equals("kitchen manager")){
-            si=new Intent(this,kitchen_manager.class);
+        else if(s.equals("waiter manager")){
+            si=new Intent(this, waiter_manager.class);
+            startActivity(si);
+        }
+        else if(s.equals("show meals")){
+            si=new Intent(this, show_meals.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);

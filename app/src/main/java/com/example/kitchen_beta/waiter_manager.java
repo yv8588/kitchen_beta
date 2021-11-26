@@ -10,7 +10,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -119,5 +122,45 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+    /**
+     *creates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        menu.add("erase");
+        menu.add("show meals");
+        menu.add("waiter");
+        return super.onCreateOptionsMenu(menu);
+    }
+    /**
+     * when item is selected in he options menu it goes to the right activity.
+     * <p>
+     * @param item the menu item selected.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent si;
+        String s=item.getTitle().toString();
+        if(s.equals("credit")) {
+            si = new Intent(this,credits.class);
+            startActivity(si);
+        }
+        else if(s.equals("log in")) {
+            si = new Intent(this,credits.class);
+            startActivity(si);
+        }
+        else if(s.equals("show meals")){
+            si=new Intent(this, show_meals.class);
+            startActivity(si);
+        }
+        else if(s.equals("erase")){
+            si=new Intent(this, erase.class);
+            startActivity(si);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

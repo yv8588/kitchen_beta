@@ -1,6 +1,8 @@
 package com.example.kitchen_beta;
 
+import static com.example.kitchen_beta.FBref.AUTH;
 import static com.example.kitchen_beta.FBref.refMeal;
+import static com.example.kitchen_beta.FBref.refUser;
 import static com.example.kitchen_beta.FBref.storageRef;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -24,6 +28,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -131,5 +140,50 @@ public class addMeal extends AppCompatActivity {
             }
 
         }
+    }
+    /**
+     *creates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        menu.add("erase");
+        menu.add("show meals");
+        menu.add("waiter");
+        menu.add("waiter manager");
+        return super.onCreateOptionsMenu(menu);
+    }
+    /**
+     * when item is selected in he options menu it goes to the right activity.
+     * <p>
+     * @param item the menu item selected.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent si;
+        String s=item.getTitle().toString();
+        if(s.equals("credit")) {
+            si = new Intent(this,credits.class);
+            startActivity(si);
+        }
+        else if(s.equals("log in")) {
+            si = new Intent(this,credits.class);
+            startActivity(si);
+        }
+       else  if(s.equals("waiter manager")){
+            si=new Intent(this, waiter_manager.class);
+            startActivity(si);
+        }
+        else if(s.equals("show meals")){
+            si=new Intent(this, show_meals.class);
+            startActivity(si);
+        }
+        else if(s.equals("erase")){
+            si=new Intent(this, erase.class);
+            startActivity(si);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
