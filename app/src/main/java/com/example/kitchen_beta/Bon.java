@@ -9,7 +9,6 @@ public class Bon  implements Serializable {
     private String date;
     private boolean above;
     private String note;
-
     /**
      * creats new bon.
      * @param time the time the bon was created.
@@ -17,14 +16,13 @@ public class Bon  implements Serializable {
      * @param date the date the bon was created.
      * @param above
      */
-    public void Bon(String time,ArrayList<Meal>b,String date,boolean above,String note){
+    public Bon(String time, ArrayList<Meal> b, String date, boolean above, String note) {
         this.time=time;
         this.b=b;
         this.date=date;
         this.above=above;
         this.note=note;
     }
-
     /**
      * @return the meals in the bon.
      */

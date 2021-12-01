@@ -4,6 +4,7 @@ import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refMeal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -206,37 +207,19 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
      * @param view the button tht got clicked.
      */
     public void check(View view) {
-        String[]c=new String[check.size()];
+        ArrayList<String>c=new ArrayList<>();
+        Double price=0.0;
         for(int i=0;i<check.size();i++){
             Meal m=check.get(i);
-            c[i]=m.getName()+(((Double)m.getPrice()).toString());
+            Double tmp =m.getPrice();
+            c.add(m.getName()+(tmp.toString()));
+            price=price+tmp;
         }
-        AlertDialog.Builder adb=new AlertDialog.Builder(this);
-        adb.setTitle("check");
-        adb.setNegativeButton("invite", new DialogInterface.OnClickListener() {
-            /**
-             * when clicked erase the meal.
-             * <p>
-             * @param dialog the dialog.
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        adb.setNegativeButton("go back", new DialogInterface.OnClickListener() {
-            /**
-             * when clicked gets out.
-             * <p>
-             * @param dialog the dialog.
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(waiter.this, "going back", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-        AlertDialog ad=adb.create();
-        ad.show();
+        Intent gi=new Intent(this, com.example.kitchen_beta.check.class);
+        gi.putExtra("meals",c);
+        gi.putExtra("price",price);
+        gi.putExtra("m",check);
+        startActivity(gi);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
