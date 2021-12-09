@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +84,14 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
                     break;
             }
         }
+        Intent si=getIntent();
+        ArrayList<Parcelable>tmp=si.getParcelableArrayListExtra("m");
+        check.clear();
+        for(int i=0;i<tmp.size();i++){
+            Meal m=(Meal) tmp.get(i);
+            check.add(m);
+        }
+
     }
     /**
      *

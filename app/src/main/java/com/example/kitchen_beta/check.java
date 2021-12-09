@@ -19,29 +19,34 @@ import java.util.ArrayList;
 
 public class check extends AppCompatActivity implements AdapterView.OnItemClickListener {
     ListView checklist;
-    ArrayList<String>Check;
+    ArrayList<String>CheckS;
     Double price;
     ArrayList<Parcelable>m;
     ArrayList<Meal>meals;
     String time,date,note;
+    ArrayAdapter<String>adpCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
         checklist=(ListView)findViewById(R.id.checklist);
+        adpCheck=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,CheckS);
+        checklist.setAdapter(adpCheck);
+        checklist.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
         Intent gi =getIntent();
         price=gi.getDoubleExtra("price",0.0);
-        Check=gi.getStringArrayListExtra("meals");
+        CheckS=gi.getStringArrayListExtra("meals");
         m=gi.getParcelableArrayListExtra("m");
         for(int i=0;i<m.size();i++){
             Meal M=(Meal) m.get(i);
             meals.add(M);
         }
-        ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,Check);
-        checklist.setAdapter(adp);
-        checklist.setOnItemClickListener(this);
-
-
+        adpCheck.notifyDataSetChanged();
+        super.onStart();
     }
 
     /**
@@ -50,7 +55,6 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
      */
     public void back(View view) {
         Intent si=new Intent(this,waiter.class);
-        si.putExtra("c",Check);
         si.putExtra("m",meals);
         startActivity(si);
     }
@@ -88,14 +92,15 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
 
         });
         adb.setPositiveButton("delete",new DialogInterface.OnClickListener(){ /**
-         * when clicked delete meal from invetation.
+         * when clicked delete meal from invitation.
          * <p>
          * @param dialog the dialog.
          */
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Check.remove(i);
-            checklist.deferNotifyDataSetChanged();
+            meals.remove(i);
+            CheckS.remove(i);
+            adpCheck.notifyDataSetChanged();
         }
         });
         AlertDialog ad= adb.create();
