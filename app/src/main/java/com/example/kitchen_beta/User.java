@@ -16,6 +16,10 @@ public class User {
         this.type=type;
     }
 
+    public User() {
+
+    }
+
     /**
      * @return the type of the user.
      */

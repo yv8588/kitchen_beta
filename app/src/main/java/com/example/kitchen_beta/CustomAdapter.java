@@ -89,7 +89,7 @@ public class CustomAdapter extends BaseAdapter {
         // set photo from fb here.
         FirebaseUser user = AUTH.getCurrentUser();
         if(user!=null) {
-            StorageReference pathReference = storageRef.child("images/" +m.getCategory()+m.getName() + ".jpg");
+            StorageReference pathReference = storageRef.child(m.getImage());
 
             final long ONE_MEGABYTE = 1024 * 1024;
             pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

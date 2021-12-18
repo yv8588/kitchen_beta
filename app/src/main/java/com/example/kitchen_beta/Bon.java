@@ -23,6 +23,9 @@ public class Bon  implements Serializable {
         this.above=above;
         this.note=note;
     }
+    public Bon(){
+
+    }
     /**
      * @return the meals in the bon.
      */

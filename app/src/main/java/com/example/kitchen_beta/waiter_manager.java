@@ -134,6 +134,7 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
         menu.add("erase");
         menu.add("show meals");
         menu.add("waiter");
+        menu.add("add meal");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -150,7 +151,11 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
             startActivity(si);
         }
         else if(s.equals("log in")) {
-            si = new Intent(this,credits.class);
+            si = new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
+        else if(s.equals("sign in")) {
+            si = new Intent(this,SignIn.class);
             startActivity(si);
         }
         else if(s.equals("show meals")){
@@ -159,6 +164,11 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
         }
         else if(s.equals("erase")){
             si=new Intent(this, erase.class);
+            startActivity(si);
+        }
+        else if(s.equals("add meal")){
+            Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+            si=new Intent(this, addMeal.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);

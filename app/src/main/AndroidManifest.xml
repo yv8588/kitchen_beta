@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kitchen_beta">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitchen_beta">
         <activity
-            android:name=".check"
+            android:name=".SignIn"
             android:exported="false" />
         <activity
-            android:name=".Check"
+            android:name=".check"
             android:exported="false" />
         <activity
             android:name=".show_meals"

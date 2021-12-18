@@ -44,7 +44,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
         list=(ListView) findViewById(R.id.list);
         list.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -84,14 +83,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
                     break;
             }
         }
-        Intent si=getIntent();
-        ArrayList<Parcelable>tmp=si.getParcelableArrayListExtra("m");
-        check.clear();
-        for(int i=0;i<tmp.size();i++){
-            Meal m=(Meal) tmp.get(i);
-            check.add(m);
-        }
-
     }
     /**
      *
@@ -250,7 +241,11 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             startActivity(si);
         }
         else  if(s.equals("log in")) {
-            si = new Intent(this,credits.class);
+            si = new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
+        else if(s.equals("sign in")) {
+            si = new Intent(this,SignIn.class);
             startActivity(si);
         }
         else if(s.equals("show meals")){

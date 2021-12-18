@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -25,16 +26,21 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
     ArrayList<Meal>meals;
     String time,date,note;
     ArrayAdapter<String>adpCheck;
+    EditText ETprice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
         checklist=(ListView)findViewById(R.id.checklist);
+        ETprice=(EditText)findViewById(R.id.ETprice);
         adpCheck=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,CheckS);
         checklist.setAdapter(adpCheck);
         checklist.setOnItemClickListener(this);
     }
 
+    /**
+     * when activity starts sets up all lists from intent.
+     */
     @Override
     protected void onStart() {
         Intent gi =getIntent();
@@ -46,6 +52,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
             meals.add(M);
         }
         adpCheck.notifyDataSetChanged();
+        ETprice.setText(price.toString());
         super.onStart();
     }
 

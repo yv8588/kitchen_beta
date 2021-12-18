@@ -73,7 +73,11 @@ public class credits extends AppCompatActivity {
         };
         query.addListenerForSingleValueEvent(vel);
         if(s.equals("log in")) {
-            si = new Intent(this,credits.class);
+            si = new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
+        else if(s.equals("sign in")) {
+            si = new Intent(this,SignIn.class);
             startActivity(si);
         }
         switch (t[0]){

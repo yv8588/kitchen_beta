@@ -19,6 +19,9 @@ public class Meal {
         this.image=image;
         this.category=category;
     }
+    public Meal(){
+
+    }
     /**
      * @return the price.
      */
