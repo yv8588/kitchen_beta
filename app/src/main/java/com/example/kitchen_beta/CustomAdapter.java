@@ -31,13 +31,13 @@ public class CustomAdapter extends BaseAdapter {
 
     /**
      * constactor.
-     * @param context app context
+     * @param applicationContext app context
      * @param mealList the list.
      */
-    public CustomAdapter(Context context,ArrayList<Meal>mealList){
-        this.context=context;
+    public CustomAdapter(Context applicationContext,ArrayList<Meal>mealList){
+        this.context=applicationContext;
         this.mealList=mealList;
-        inflater=(LayoutInflater.from(context));
+        inflater=(LayoutInflater.from(applicationContext));
     }
 
     /**
@@ -55,7 +55,7 @@ public class CustomAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int i) {
-        return mealList.get(i);
+        return null;
     }
 
     /**
@@ -80,7 +80,7 @@ public class CustomAdapter extends BaseAdapter {
         view=inflater.inflate(R.layout.custom_lv,null);
         TextView price=(TextView) view.findViewById(R.id.mPrice);
         TextView name=(TextView) view.findViewById(R.id.mName);
-        TextView des=(TextView) view.findViewById(R.id.desc);
+        TextView des=(TextView) view.findViewById(R.id.mdesc);
         ImageView photo=(ImageView) view.findViewById(R.id.mImage);
         Meal m=mealList.get(i);
         des.setText(m.getAbout());
@@ -90,7 +90,6 @@ public class CustomAdapter extends BaseAdapter {
         FirebaseUser user = AUTH.getCurrentUser();
         if(user!=null) {
             StorageReference pathReference = storageRef.child(m.getImage());
-
             final long ONE_MEGABYTE = 1024 * 1024;
             pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 /**
@@ -114,8 +113,6 @@ public class CustomAdapter extends BaseAdapter {
                 }
             });
         }
-
-
         return view;
     }
 }

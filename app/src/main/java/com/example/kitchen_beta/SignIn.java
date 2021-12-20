@@ -93,22 +93,24 @@ EditText mail,password;
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User[]a=new User[1];
                     Intent si;
-                    for(DataSnapshot data : snapshot.getChildren()){
-                        a[0]=data.getValue(User.class);
-                    }
-                    switch(a[0].getType()){
-                        case 0:
-                            si =new Intent(context, com.example.kitchen_beta.waiter.class);
-                            startActivity(si);
-                            break;
-                        case 1:
-                            si =new Intent(context,kitchen_manager.class);
-                            startActivity(si);
-                            break;
-                        case 2:
-                            si =new Intent(context,waiter_manager.class);
-                            startActivity(si);
-                            break;
+                    if(snapshot.exists()) {
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            a[0] = data.getValue(User.class);
+                        }
+                        switch (a[0].getType()) {
+                            case 0:
+                                si = new Intent(context, com.example.kitchen_beta.waiter.class);
+                                startActivity(si);
+                                break;
+                            case 1:
+                                si = new Intent(context, kitchen_manager.class);
+                                startActivity(si);
+                                break;
+                            case 2:
+                                si = new Intent(context, waiter_manager.class);
+                                startActivity(si);
+                                break;
+                        }
                     }
                 }
 
@@ -117,7 +119,7 @@ EditText mail,password;
 
                 }
             };
-            Query query=refUser.orderByChild("user_id").equalTo(user.getUid());
+            Query query=refUser.orderByChild("user_id").equalTo(user.getUid()).limitToFirst(1);
             query.addListenerForSingleValueEvent(vel);
         }
     }

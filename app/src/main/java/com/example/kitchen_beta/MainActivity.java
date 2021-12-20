@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             if(type==0){
                 Toast.makeText(this, "please enter type of user", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "im here", Toast.LENGTH_SHORT).show();
             FirebaseUser user = AUTH.getCurrentUser();
             if(user!=null) {
                 userid  = user.getUid();
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
             si = new Intent(this,SignIn.class);
             startActivity(si);
         }
-        if(s.equals("credit")) {
+        if(s.equals("credits")) {
             si = new Intent(this,credits.class);
             startActivity(si);
         }

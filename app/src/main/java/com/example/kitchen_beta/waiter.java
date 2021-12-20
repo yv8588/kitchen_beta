@@ -42,7 +42,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiter);
         list=(ListView) findViewById(R.id.list);
-        list.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
     @Override
     protected void onStart() {
@@ -68,18 +68,19 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
         };
         query.addListenerForSingleValueEvent(vel);
         for(int i=0;i<meal_read.size();i++){
-            switch (meal_read.get(i).getCategory()){
+            Meal tmp=meal_read.get(i);
+            switch (tmp.getCategory()){
                 case "first":
-                    first.add(meal_read.get(i));
+                    first.add(tmp);
                     break;
                 case "main":
-                    main.add(meal_read.get(i));
+                    main.add(tmp);
                     break;
                 case"desert":
-                    desert.add(meal_read.get(i));
+                    desert.add(tmp);
                     break;
                 case "drink":
-                    drink.add(meal_read.get(i));
+                    drink.add(tmp);
                     break;
             }
         }
@@ -223,7 +224,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("waiter");
         menu.add("show meals");
         return super.onCreateOptionsMenu(menu);
     }
