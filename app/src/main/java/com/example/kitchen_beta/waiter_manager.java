@@ -158,6 +158,10 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
             si = new Intent(this,SignIn.class);
             startActivity(si);
         }
+        else if(s.equals("waiter")) {
+            si = new Intent(this,waiter.class);
+            startActivity(si);
+        }
         else if(s.equals("show meals")){
             si=new Intent(this, show_meals.class);
             startActivity(si);

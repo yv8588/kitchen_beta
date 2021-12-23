@@ -1,6 +1,7 @@
 package com.example.kitchen_beta;
 
 import static com.example.kitchen_beta.FBref.AUTH;
+import static com.example.kitchen_beta.FBref.refMeal;
 import static com.example.kitchen_beta.FBref.storageRef;
 
 import android.content.Context;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -30,7 +30,7 @@ public class CustomAdapter extends BaseAdapter {
     LayoutInflater inflater;
 
     /**
-     * constactor.
+     * constractor.
      * @param applicationContext app context
      * @param mealList the list.
      */
@@ -87,32 +87,28 @@ public class CustomAdapter extends BaseAdapter {
         name.setText(m.getName());
         price.setText(((Double) m.getPrice()).toString());
         // set photo from fb here.
-        FirebaseUser user = AUTH.getCurrentUser();
-        if(user!=null) {
-            StorageReference pathReference = storageRef.child(m.getImage());
-            final long ONE_MEGABYTE = 1024 * 1024;
-            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                /**
-                 * when download is succesfull shows image
-                 * <p>
-                 * @param bytes the byte array (image).
-                 */
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes .length);
-                    photo.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                /**
-                 * when download photo from fb fails shows toast to notify user.
-                 * @param exception the failure exception.
-                 */
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(context, "cant find image for this meal", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        StorageReference pathReference = storageRef.child(m.getImage());
+        final long ONE_MEGABYTE = 1024 * 1024;
+        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            /**
+             * when download is succesfull shows image
+             * <p>
+             * @param bytes the byte array (image).
+             */
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes .length);
+                photo.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            /**
+             * when download photo from fb fails shows toast to notify user.
+             * @param exception the failure exception.
+             */
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        });
         return view;
     }
 }

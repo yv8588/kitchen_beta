@@ -1,10 +1,8 @@
 package com.example.kitchen_beta;
 
-import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refMeal;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,13 +28,13 @@ import java.util.ArrayList;
 
 public class waiter extends AppCompatActivity implements AdapterView.OnItemClickListener {
     ListView list;
-    ArrayList<Meal>meal_read=new ArrayList<>();
     ArrayList<Meal>first=new ArrayList<>();
     ArrayList<Meal>main=new ArrayList<>();
     ArrayList<Meal>desert=new ArrayList<>();
     ArrayList<Meal>drink=new ArrayList<>();
     ArrayList<Meal>check=new ArrayList<>();
     String type;
+    ValueEventListener vel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +49,29 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
         /**
          * gets the user object in the form of an object then casted to user.
          */
-        ValueEventListener vel=new ValueEventListener() {
+         vel=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                meal_read.clear();
+                first.clear();
+                main.clear();
+                desert.clear();
+                drink.clear();
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Meal tmp = data.getValue(Meal.class);
-                    meal_read.add(tmp);
+                    switch (tmp.getCategory()){
+                        case "first":
+                            first.add(tmp);
+                            break;
+                        case "main":
+                            main.add(tmp);
+                            break;
+                        case"desert":
+                            desert.add(tmp);
+                            break;
+                        case "drink":
+                            drink.add(tmp);
+                            break;
+                    }
                 }
             }
 
@@ -66,24 +80,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
 
             }
         };
-        query.addListenerForSingleValueEvent(vel);
-        for(int i=0;i<meal_read.size();i++){
-            Meal tmp=meal_read.get(i);
-            switch (tmp.getCategory()){
-                case "first":
-                    first.add(tmp);
-                    break;
-                case "main":
-                    main.add(tmp);
-                    break;
-                case"desert":
-                    desert.add(tmp);
-                    break;
-                case "drink":
-                    drink.add(tmp);
-                    break;
-            }
-        }
+        refMeal.addValueEventListener(vel);
     }
     /**
      *
@@ -253,5 +250,14 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (vel!=null) {
+            refMeal.removeEventListener(vel);
+        }
+
     }
 }
