@@ -1,6 +1,8 @@
 package com.example.kitchen_beta;
 
+import static com.example.kitchen_beta.FBref.AUTH;
 import static com.example.kitchen_beta.FBref.refMeal;
+import static com.example.kitchen_beta.FBref.refUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,11 +21,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class waiter extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -45,7 +49,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     @Override
     protected void onStart() {
         super.onStart();
-        Query query=refMeal.orderByChild("name");
+    //    Query query=refMeal.orderByChild("name");
         /**
          * gets the user object in the form of an object then casted to user.
          */
@@ -214,40 +218,82 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             price=price+tmp;
         }
         Intent gi=new Intent(this, com.example.kitchen_beta.check.class);
+        Bundle args=new Bundle();
+        args.putSerializable("ARRAYLIST",(Serializable)check);
         gi.putExtra("meals",c);
         gi.putExtra("price",price);
-        gi.putExtra("m",check);
+        gi.putExtra("BUNDLE",args);
         startActivity(gi);
     }
+    /**
+     *creates options menu
+     * <p>
+     * @param menu the xml general menu.
+     */
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("show meals");
         return super.onCreateOptionsMenu(menu);
     }
     /**
      * when item is selected in he options menu it goes to the right activity.
      * <p>
-     * @param item the item that got clicked.
+     * @param item the menu item selected.
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String uId="";
         Intent si;
+        int[] t = new int[1];
         String s=item.getTitle().toString();
+        FirebaseUser user=AUTH.getCurrentUser();
+        if(user!=null){
+            uId=user.getUid();
+        }
+        Query query=refUser.orderByChild("user_id").equalTo(uId);
+        ValueEventListener vel=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot data:snapshot.getChildren()) {
+                    User u=data.getValue(User.class);
+                    if(u!=null)
+                        t[0] =u.getType();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        query.addListenerForSingleValueEvent(vel);
         if(s.equals("credit")) {
             si = new Intent(this,credits.class);
             startActivity(si);
         }
-        else  if(s.equals("log in")) {
-            si = new Intent(this,MainActivity.class);
+        else if(s.equals("log in")) {
+            si = new Intent(this,credits.class);
             startActivity(si);
         }
-        else if(s.equals("sign in")) {
-            si = new Intent(this,SignIn.class);
+        else if(s.equals("waiter")){
+            si=new Intent(this, com.example.kitchen_beta.waiter.class);
             startActivity(si);
         }
-        else if(s.equals("show meals")){
-            si=new Intent(this, show_meals.class);
-            startActivity(si);
+        else  if((t[0])==2) {
+            if (s.equals("waiter manager")) {
+                si = new Intent(this, waiter_manager.class);
+                startActivity(si);
+            } else if (s.equals("add meal")) {
+                si = new Intent(this, addMeal.class);
+                startActivity(si);
+            } else if (s.equals("erase")) {
+                si = new Intent(this, erase.class);
+                startActivity(si);
+            }
+            else if(s.equals("remove from menu")){
+                si=new Intent(this,eraseFromMenu.class);
+                startActivity(si);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

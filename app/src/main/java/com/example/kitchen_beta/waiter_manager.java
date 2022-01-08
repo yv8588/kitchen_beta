@@ -175,6 +175,11 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
             si=new Intent(this, addMeal.class);
             startActivity(si);
         }
+        if(s.equals("remove from menu")){
+            si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
+            startActivity(si);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

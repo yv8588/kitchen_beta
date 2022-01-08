@@ -32,12 +32,6 @@ public class credits extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("erase");
-        menu.add("kitchen manager");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -72,22 +66,22 @@ public class credits extends AppCompatActivity {
             }
         };
         query.addListenerForSingleValueEvent(vel);
+        if(s.equals("sign in")){
+            si = new Intent(this,SignIn.class);
+            startActivity(si);
+        }
         if(s.equals("log in")) {
             si = new Intent(this,MainActivity.class);
             startActivity(si);
         }
-        else if(s.equals("sign in")) {
-            si = new Intent(this,SignIn.class);
+        else if(s.equals("show meals")){
+            si = new Intent(this,show_meals.class);
             startActivity(si);
         }
         switch (t[0]){
             case 0:
                 if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
-                    startActivity(si);
-                }
-                else if(s.equals("show meals")){
-                    si=new Intent(this, show_meals.class);
                     startActivity(si);
                 }
                 break;
@@ -102,18 +96,27 @@ public class credits extends AppCompatActivity {
                     si=new Intent(this, waiter_manager.class);
                     startActivity(si);
                 }
+                else if(s.equals("add meal")){
+                    si=new Intent(this, addMeal.class);
+                    startActivity(si);
+                }
                 else if(s.equals("show meals")){
-                    si=new Intent(this, show_meals.class);
+                    si = new Intent(this,show_meals.class);
                     startActivity(si);
                 }
                 else if(s.equals("erase")){
                     si=new Intent(this, erase.class);
                     startActivity(si);
                 }
-                else if(s.equals("add meal")){
-                    si=new Intent(this, addMeal.class);
+                if(s.equals("waiter")){
+                    si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
                 }
+                if(s.equals("remove from menu")){
+                    si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
+                    startActivity(si);
+                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);

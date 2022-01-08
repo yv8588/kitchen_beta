@@ -6,22 +6,23 @@ import java.util.ArrayList;
 public class Bon  implements Serializable {
     private String time;
     private ArrayList<Meal>b;
-    private String date;
     private boolean above;
     private String note;
+    private String ID;
+
     /**
      * creats new bon.
      * @param time the time the bon was created.
      * @param b the meals in the bon.
-     * @param date the date the bon was created.
-     * @param above
+     * @param above is the meal praioritized.
+     * @param ID the meal unique id.
      */
-    public Bon(String time, ArrayList<Meal> b, String date, boolean above, String note) {
+    public Bon(String time, ArrayList<Meal> b,boolean above, String note,String ID) {
         this.time=time;
         this.b=b;
-        this.date=date;
         this.above=above;
         this.note=note;
+        this.ID=ID;
     }
     public Bon(){
 
@@ -32,14 +33,6 @@ public class Bon  implements Serializable {
     public ArrayList<Meal> getB() {
         return b;
     }
-
-    /**
-     * @return the date of the bon.
-     */
-    public String getDate() {
-        return date;
-    }
-
     /**
      * @return the time of the bon.
      */
@@ -61,6 +54,10 @@ public class Bon  implements Serializable {
         return note;
     }
 
+    public String getID() {
+        return ID;
+    }
+
     /**
      * sets the Array list of meals.
      * @param b the Array list of meals.
@@ -69,13 +66,6 @@ public class Bon  implements Serializable {
         this.b = b;
     }
 
-    /**
-     * sets the date of the bon.
-     * @param date the date the bon was created.
-     */
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     /**
      * sets the time of the bon
@@ -101,6 +91,10 @@ public class Bon  implements Serializable {
         this.note = note;
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
     @Override
     /**
      * makes a string out of all the object parameters.
@@ -110,7 +104,7 @@ public class Bon  implements Serializable {
             return "Bon{" +
                     "time='" + time + '\'' +
                     ", b=" + b +
-                    ", date='" + date + '\'' +
+                    ", date='" +
                     ", above=" + above +
                     '}';
         }
@@ -118,7 +112,6 @@ public class Bon  implements Serializable {
             return "Bon{" +
                     "time='" + time + '\'' +
                     ", b=" + b +
-                    ", date='" + date + '\'' +
                     ", above=" + above + "notes"+note+
                     '}';
         }

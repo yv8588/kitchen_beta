@@ -1,5 +1,6 @@
 package com.example.kitchen_beta;
 
+import static com.example.kitchen_beta.FBref.AUTH;
 import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refBon;
 
@@ -9,22 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class check extends AppCompatActivity implements AdapterView.OnItemClickListener {
     ListView checklist;
     ArrayList<String>CheckS;
     Double price;
-    ArrayList<Parcelable>m;
     ArrayList<Meal>meals;
-    String time,date,note;
+    String note;
     ArrayAdapter<String>adpCheck;
     EditText ETprice;
     @Override
@@ -46,11 +47,8 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
         Intent gi =getIntent();
         price=gi.getDoubleExtra("price",0.0);
         CheckS=gi.getStringArrayListExtra("meals");
-        m=gi.getParcelableArrayListExtra("m");
-        for(int i=0;i<m.size();i++){
-            Meal M=(Meal) m.get(i);
-            meals.add(M);
-        }
+        Bundle args=gi.getBundleExtra("BUNDLE");
+        meals=(ArrayList<Meal>) args.getSerializable("ARRAYLIST");
         adpCheck.notifyDataSetChanged();
         ETprice.setText(price.toString());
         super.onStart();
@@ -70,9 +68,11 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
      * @param view the button that got clicked
      */
     public void order(View view) {
-        Bon b=new Bon(time,meals,date,false,note);
-        refBon.child("bon").setValue(b);
-        refActive.child("active_bon").setValue(b);
+        String time=new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        String uid=AUTH.getCurrentUser().getUid();
+        Bon b=new Bon(time,meals,false,note,ID_CREATOR.getID(uid,time));
+        refBon.child(b.getID()).setValue(b);
+        refActive.child(b.getID()).setValue(b);
         Intent si=new Intent(this,waiter.class);
         startActivity(si);
     }

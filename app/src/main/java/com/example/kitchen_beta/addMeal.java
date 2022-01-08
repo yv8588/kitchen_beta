@@ -130,7 +130,7 @@ public class addMeal extends AppCompatActivity {
                     }
                 });
                 Meal m = new Meal(n, Double.parseDouble(p), path, type, desc);
-                refMeal.child("meal").setValue(m);
+                refMeal.child(n).setValue(m);
             }
         }
     }
@@ -142,10 +142,6 @@ public class addMeal extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("erase");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -181,6 +177,9 @@ public class addMeal extends AppCompatActivity {
             si=new Intent(this, erase.class);
             startActivity(si);
         }
+        if(s.equals("remove from menu")){
+            si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
+            startActivity(si);
         return super.onOptionsItemSelected(item);
     }
 }

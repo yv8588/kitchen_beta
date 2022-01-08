@@ -124,22 +124,6 @@ EditText mail,password;
         }
     }
     /**
-     *creates options menu
-     * <p>
-     * @param menu the xml general menu.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("erase");
-        menu.add("kitchen manager");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
-        return super.onCreateOptionsMenu(menu);
-    }
-    /**
      * when item is selected in he options menu it goes to the right activity.
      * <p>
      * @param item the menu item selected.
@@ -171,8 +155,8 @@ EditText mail,password;
             }
         };
         query.addListenerForSingleValueEvent(vel);
-        if(s.equals("credit")) {
-            si = new Intent(this,credits.class);
+        if(s.equals("log in")) {
+            si = new Intent(this,MainActivity.class);
             startActivity(si);
         }
         else if(s.equals("show meals")){
@@ -213,6 +197,11 @@ EditText mail,password;
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
                 }
+                if(s.equals("remove from menu")){
+                    si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
+                    startActivity(si);
+                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);

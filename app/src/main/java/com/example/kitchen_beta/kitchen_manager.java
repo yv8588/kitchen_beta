@@ -27,37 +27,37 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class kitchen_manager extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    ArrayList<Bon> meal_read= new ArrayList<Bon>();
-    ArrayList<String>meal_view= new ArrayList<String>();
-    ListView meal_list;
+    Queue<Bon> meal_order_main;
+    ValueEventListener vel;
+    ListView list1,list2,list3,list4,list5,list6,list7,list8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kitchen_manager);
-        meal_list=(ListView)findViewById(R.id.meal_list);
-        ArrayAdapter<String> adp=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,meal_view);
-        meal_list.setAdapter(adp);
-        meal_list.setOnItemSelectedListener(this);
-    }
-    /**
-     * when activity starts gets the meals from db to show on list view.
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
+        list1=(ListView)findViewById(R.id.list1);
+        list2=(ListView)findViewById(R.id.list2);
+        list3=(ListView)findViewById(R.id.list3);
+        list4=(ListView)findViewById(R.id.list4);
+        list5=(ListView)findViewById(R.id.list5);
+        list6=(ListView)findViewById(R.id.list6);
+        list7=(ListView)findViewById(R.id.list7);
+        list8=(ListView)findViewById(R.id.list8);
+        meal_order_main = new LinkedList<Bon>();
         Query query=refActive.orderByChild("time");
         /**
          * gets the user object in the form of an object then casted to user.
          */
-        ValueEventListener vel=new ValueEventListener() {
+        vel=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                meal_read.clear();
                 for(DataSnapshot data:snapshot.getChildren()) {
-                    Bon tmp = data.getValue(Bon.class);
-                    meal_read.add(tmp);
+                    Bon tmp=data.getValue(Bon.class);
+                    meal_order_main.add(tmp);
                 }
             }
 
@@ -66,14 +66,28 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
 
             }
         };
-        query.addListenerForSingleValueEvent(vel);
-        for(int i=0;i<meal_read.size();i++){
-            meal_view.add(meal_read.get(i).toString());
-        }
-        meal_list.deferNotifyDataSetChanged();
+        refMeal.addValueEventListener(vel);
 
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (vel!=null) {
+            refMeal.removeEventListener(vel);
+        }
 
+    }
+    public Queue<Bon>clone(){
+        Queue<Bon>q=new LinkedList<>();
+        Queue<Bon>q2=new LinkedList<>();
+        while(!meal_order_main.isEmpty()) {
+            Bon tmp=meal_order_main.remove();
+            q.add(tmp);
+            q2.add(tmp);
+        }
+        meal_order_main=q;
+        return q2;
+    }
     /**
      * lets user erase a bon when done.
      * @param adapterView
@@ -83,9 +97,13 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Queue<Bon>tmp=clone();
+        Object[]arr= tmp.toArray();
         AlertDialog.Builder adb=new AlertDialog.Builder(this);
         TextView tv=new TextView(this);
         tv.setText("erase bon?");
+        switch (adapterView){
+            case list1:
         adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
             /**
              * when clicked erase the bon.
@@ -94,13 +112,215 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
              */
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Bon b=meal_read.get(i);
-                meal_read.remove(i);
-                refMeal.child("bon").setValue(b);
-                meal_view.remove(i);
-                meal_list.deferNotifyDataSetChanged();
+                Bon b=(Bon)arr[0];
+                refActive.child(b.getID()).removeValue();
             }
         });
+        adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+            /**
+             * when clicked erase meal.
+             * <p>
+             * @param dialog the dialog.
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent si=new Intent(kitchen_manager.this,erase.class);
+                si.putExtra("bon",(Bon)arr[0]);
+                startActivity(si);
+            }
+        });
+        break;
+            case list2:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[1];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[1]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list3:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[2];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[2]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list4:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[3];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[3]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list5:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[4];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[4]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list6:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[5];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[5]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list7:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[6];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[6]);
+                        startActivity(si);
+                    }
+                });
+                break;
+            case list8:
+                adb.setNegativeButton("yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * when clicked erase the bon.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bon b=(Bon)arr[7];
+                        refActive.child(b.getID()).removeValue();
+                    }
+                });
+                adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
+                    /**
+                     * when clicked erase meal.
+                     * <p>
+                     * @param dialog the dialog.
+                     */
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent si=new Intent(kitchen_manager.this,erase.class);
+                        si.putExtra("bon",(Bon)arr[7]);
+                        startActivity(si);
+                    }
+                });
+                break;
+        }
+        adb.setView(tv);
         adb.setNegativeButton("no", new DialogInterface.OnClickListener() {
             /**
              * when clicked gets out.
@@ -113,20 +333,6 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
                 dialog.dismiss();
             }
         });
-        adb.setNeutralButton("meal",new DialogInterface.OnClickListener(){
-            /**
-             * when clicked erase meal.
-             * <p>
-             * @param dialog the dialog.
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent si=new Intent(kitchen_manager.this,erase.class);
-                si.putExtra("bon",meal_read.get(i));
-                startActivity(si);
-            }
-        });
-        adb.setView(tv);
         AlertDialog ad=adb.create();
         ad.show();
 
@@ -144,11 +350,6 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("erase");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**

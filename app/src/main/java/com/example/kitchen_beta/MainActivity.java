@@ -154,12 +154,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("erase");
-        menu.add("kitchen manager");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -240,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
                 }
+                if(s.equals("remove from menu")){
+                    si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
+                    startActivity(si);
+                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);

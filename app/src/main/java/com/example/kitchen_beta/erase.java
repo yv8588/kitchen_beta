@@ -1,5 +1,7 @@
 package com.example.kitchen_beta;
 
+import static com.example.kitchen_beta.FBref.AUTH;
+import static com.example.kitchen_beta.FBref.refBon;
 import static com.example.kitchen_beta.FBref.refMeal;
 
 import androidx.annotation.NonNull;
@@ -31,7 +33,6 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
         setContentView(R.layout.activity_erase);
         b = (Bon) getIntent().getSerializableExtra("bon");
         meal_list=(ListView)findViewById(R.id.meal_list);
-        bon_list.add("date:"+b.getDate());
         bon_list.add("time"+b.getTime());
         bon_list.add("note"+b.getNote());
         if(b.isAbove()){
@@ -71,7 +72,7 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
             public void onClick(DialogInterface dialog, int which) {
                 b.getB().remove(m.get(i));
                 m.remove(i);
-                refMeal.child("bon").setValue(b);
+                refBon.child(ID_CREATOR.getID(AUTH.getCurrentUser().getUid(),b.getTime())).removeValue();
                 bon_list.remove(i);
                 meal_list.deferNotifyDataSetChanged();
                 Intent sa=new Intent(erase.this,kitchen_manager.class);
@@ -106,10 +107,6 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -139,6 +136,10 @@ public class erase extends AppCompatActivity implements AdapterView.OnItemSelect
         }
         else if(s.equals("show meals")){
             si=new Intent(this, show_meals.class);
+            startActivity(si);
+        }
+        else if(s.equals("remove from menu")){
+            si=new Intent(this,eraseFromMenu.class);
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);

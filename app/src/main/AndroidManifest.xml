@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitchen_beta">
         <activity
+            android:name=".eraseFromMenu"
+            android:exported="false" />
+        <activity
             android:name=".SignIn"
             android:exported="false" />
         <activity

@@ -3,6 +3,7 @@ package com.example.kitchen_beta;
 import static com.example.kitchen_beta.FBref.AUTH;
 import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refUser;
+import static com.example.kitchen_beta.FBref.storageRef;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,12 +77,6 @@ public class show_meals extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("add meal");
-        menu.add("erase");
-        menu.add("kitchen manager");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("waiter manager");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -137,6 +132,10 @@ public class show_meals extends AppCompatActivity{
                 startActivity(si);
             } else if (s.equals("erase")) {
                 si = new Intent(this, erase.class);
+                startActivity(si);
+            }
+            else if(s.equals("remove from menu")){
+                si=new Intent(this,eraseFromMenu.class);
                 startActivity(si);
             }
         }
