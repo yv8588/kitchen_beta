@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class waiter extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class waiter extends AppCompatActivity implements AdapterView.OnItemClickListener,Serializable {
     ListView list;
     ArrayList<Meal>first=new ArrayList<>();
     ArrayList<Meal>main=new ArrayList<>();
@@ -49,6 +49,29 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     @Override
     protected void onStart() {
         super.onStart();
+        ArrayList<Object> list = (ArrayList<Object>)getIntent().getSerializableExtra("list");
+        if(list!=null){
+        for(int i=0;i<list.size();i++) {
+            if (list.get(i) != null) {
+                Meal tmp = (Meal) list.get(i);
+                switch (tmp.getCategory()) {
+                    case "first":
+                        first.add(tmp);
+                        break;
+                    case "main":
+                        main.add(tmp);
+                        break;
+                    case "desert":
+                        desert.add(tmp);
+                        break;
+                    case "drink":
+                        drink.add(tmp);
+                        break;
+                }
+
+            }
+        }
+        }
     //    Query query=refMeal.orderByChild("name");
         /**
          * gets the user object in the form of an object then casted to user.
@@ -56,10 +79,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
          vel=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                first.clear();
-                main.clear();
-                desert.clear();
-                drink.clear();
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Meal tmp = data.getValue(Meal.class);
                     switch (tmp.getCategory()){
@@ -84,7 +103,8 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
 
             }
         };
-        refMeal.addValueEventListener(vel);
+        refMeal.addListenerForSingleValueEvent(vel);
+
     }
     /**
      *
@@ -217,12 +237,14 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             c.add(m.getName()+(tmp.toString()));
             price=price+tmp;
         }
-        Intent gi=new Intent(this, com.example.kitchen_beta.check.class);
-        Bundle args=new Bundle();
-        args.putSerializable("ARRAYLIST",(Serializable)check);
+        Intent gi=new Intent(getApplicationContext(), com.example.kitchen_beta.check.class);
+        ArrayList<Object>tmp=new ArrayList<>();
+        for(int i=0;i<check.size();i++){
+            tmp.add(check.get(i));
+        }
+        gi.putExtra("list", tmp);
         gi.putExtra("meals",c);
         gi.putExtra("price",price);
-        gi.putExtra("BUNDLE",args);
         startActivity(gi);
     }
     /**
@@ -301,9 +323,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     @Override
     protected void onPause() {
         super.onPause();
-        if (vel!=null) {
-            refMeal.removeEventListener(vel);
-        }
 
     }
 }

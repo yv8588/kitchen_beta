@@ -29,6 +29,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
     ArrayList<Meal>main=new ArrayList<>();
     ArrayList<Meal>desert=new ArrayList<>();
     ArrayList<Meal>drink=new ArrayList<>();
+    CustomAdapter customadp;
     ValueEventListener vel;
     ListView meal_list;
     String type="";
@@ -86,7 +87,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void Mainm(View view) {
-        CustomAdapter customadp = new CustomAdapter(getApplicationContext(), main);
+         customadp = new CustomAdapter(getApplicationContext(), main);
         meal_list.setAdapter(customadp);
         meal_list.setOnItemClickListener(this);
         type="main";
@@ -117,7 +118,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
         switch (type){
             case "first":
                 adb.setPositiveButton("remove",new DialogInterface.OnClickListener(){ /**
-                 * when clicked adds meal to check.
+                 * when clicked removes meal from menu.
                  * <p>
                  * @param dialog the dialog.
                  */
@@ -125,12 +126,14 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 public void onClick(DialogInterface dialog, int which) {
                     refMeal.child(first.get(i).getName()).removeValue();
                     first.remove(i);
+                    customadp.notifyDataSetChanged();
+
                 }
                 });
                 break;
             case "main":
                 adb.setPositiveButton("remove",new DialogInterface.OnClickListener(){ /**
-                 * when clicked adds meal to check.
+                 * when clicked removes meal from menu.
                  * <p>
                  * @param dialog the dialog.
                  */
@@ -138,12 +141,13 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 public void onClick(DialogInterface dialog, int which) {
                     refMeal.child(main.get(i).getName()).removeValue();
                     main.remove(i);
+                    customadp.notifyDataSetChanged();
                 }
                 });
                 break;
             case "desert":
                 adb.setPositiveButton("remove",new DialogInterface.OnClickListener(){ /**
-                 * when clicked adds meal to check.
+                 * when clicked removes meal from menu.
                  * <p>
                  * @param dialog the dialog.
                  */
@@ -151,12 +155,13 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 public void onClick(DialogInterface dialog, int which) {
                     refMeal.child(desert.get(i).getName()).removeValue();
                     desert.remove(i);
+                    customadp.notifyDataSetChanged();
                 }
                 });
                 break;
             case "drink":
                 adb.setPositiveButton("remove",new DialogInterface.OnClickListener(){ /**
-                 * when clicked adds meal to check.
+                 * when clicked removes meal from menu.
                  * <p>
                  * @param dialog the dialog.
                  */
@@ -164,6 +169,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 public void onClick(DialogInterface dialog, int which) {
                     refMeal.child(drink.get(i).getName()).removeValue();
                     drink.remove(i);
+                    customadp.notifyDataSetChanged();
                 }
                 });
                 break;

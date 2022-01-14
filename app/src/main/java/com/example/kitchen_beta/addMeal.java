@@ -131,6 +131,18 @@ public class addMeal extends AppCompatActivity {
                 });
                 Meal m = new Meal(n, Double.parseDouble(p), path, type, desc);
                 refMeal.child(n).setValue(m);
+                name.setHint("meal name");
+                price.setHint("meal price");
+                des.setHint("meal description");
+                if (first.isChecked()) {
+                    first.setChecked(false);
+                } else if (main.isChecked()) {
+                    main.setChecked(false);
+                } else if (desert.isChecked()) {
+                    desert.setChecked(false);
+                } else if (drink.isChecked()) {
+                    drink.setChecked(false);
+                }
             }
         }
     }

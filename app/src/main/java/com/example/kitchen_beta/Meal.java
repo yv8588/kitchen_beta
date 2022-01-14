@@ -1,6 +1,8 @@
 package com.example.kitchen_beta;
 
-public class Meal {
+import java.io.Serializable;
+
+public class Meal implements Serializable {
     private String name;
     private double price;
     private String image;

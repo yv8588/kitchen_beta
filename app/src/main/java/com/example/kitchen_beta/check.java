@@ -16,11 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class check extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class check extends AppCompatActivity implements AdapterView.OnItemClickListener, Serializable {
     ListView checklist;
     ArrayList<String>CheckS;
     Double price;
@@ -34,9 +35,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
         setContentView(R.layout.activity_check);
         checklist=(ListView)findViewById(R.id.checklist);
         ETprice=(EditText)findViewById(R.id.ETprice);
-        adpCheck=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,CheckS);
-        checklist.setAdapter(adpCheck);
-        checklist.setOnItemClickListener(this);
+        meals=new ArrayList<>();
     }
 
     /**
@@ -47,8 +46,15 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
         Intent gi =getIntent();
         price=gi.getDoubleExtra("price",0.0);
         CheckS=gi.getStringArrayListExtra("meals");
-        Bundle args=gi.getBundleExtra("BUNDLE");
-        meals=(ArrayList<Meal>) args.getSerializable("ARRAYLIST");
+        adpCheck=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,CheckS);
+        checklist.setAdapter(adpCheck);
+        checklist.setOnItemClickListener(this);
+        ArrayList<Object> list = (ArrayList<Object>)getIntent().getSerializableExtra("list");
+        for(int i=0;i<list.size();i++){
+            if(list.get(i)!=null) {
+                meals.add((Meal) list.get(i));
+            }
+        }
         adpCheck.notifyDataSetChanged();
         ETprice.setText(price.toString());
         super.onStart();
@@ -60,7 +66,11 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
      */
     public void back(View view) {
         Intent si=new Intent(this,waiter.class);
-        si.putExtra("m",meals);
+        ArrayList<Object>tmp=new ArrayList<>();
+        for(int i=0;i<meals.size();i++){
+            tmp.add(meals.get(i));
+        }
+        si.putExtra("list", tmp);
         startActivity(si);
     }
     /**
@@ -68,7 +78,8 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
      * @param view the button that got clicked
      */
     public void order(View view) {
-        String time=new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        String time=new SimpleDateFormat("yyyy.MMdd.HH.mm.ss").format(new Date());
+        time.replaceAll(".","");
         String uid=AUTH.getCurrentUser().getUid();
         AlertDialog.Builder adb=new AlertDialog.Builder(this);
         EditText et=new EditText(this);
@@ -122,6 +133,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
          */
         @Override
         public void onClick(DialogInterface dialog, int which) {
+            price=price-meals.get(i).getPrice();
             meals.remove(i);
             CheckS.remove(i);
             adpCheck.notifyDataSetChanged();
