@@ -63,12 +63,6 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
                     ArrayList<Meal>cuurentmeals=tmp.getB();
-                    ArrayList<String>bon_order= new ArrayList<>();
-                    int i=0;
-                    while(!cuurentmeals.isEmpty()){
-                        bon_order.add(cuurentmeals.get(i).toString());
-                        i++;
-                    }
                     meal_order_main.add(tmp);
                 }
                 adp2.notifyDataSetChanged();
@@ -90,12 +84,6 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
                     ArrayList<Meal>cuurentmeals=tmp.getB();
-                    ArrayList<String>bon_order= new ArrayList<>();
-                    int i=0;
-                    while(!cuurentmeals.isEmpty()){
-                        bon_order.add(cuurentmeals.get(i).toString());
-                        i++;
-                    }
                     meal_order_main.add(tmp);
                 }
                 adp2.notifyDataSetChanged();
@@ -119,7 +107,7 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
         }
     }
     /**
-     * lets user erase a bon when done.
+     * lets user erase a bon when done or a meal.
      * @param adapterView
      * @param view
      * @param i
@@ -127,10 +115,12 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Bon[] arrayBon = (Bon[]) meal_order_main.toArray();
         if(adapterView.getAdapter()==adp2) {
             ArrayList<Meal> tmpm = meal_order_main.get(i).getB();
             ArrayList<String> sMeals = new ArrayList<>();
+            sMeals.add(meal_order_main.get(i).getNote());
+
+            sMeals.add(String.valueOf(meal_order_main.get(i).isAbove()));
             for (int j = 0; j < tmpm.size(); i++) {
                 sMeals.add(tmpm.get(i).toString());
             }
@@ -151,7 +141,7 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
             }
 
             });
-            int finalI1 = i;
+            int finalI1 = i-2;
             adb.setPositiveButton("delete meal",new DialogInterface.OnClickListener(){ /**
              * when clicked removes meal from bon.
              * <p>

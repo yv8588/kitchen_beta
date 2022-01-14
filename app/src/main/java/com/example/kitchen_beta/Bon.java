@@ -21,7 +21,7 @@ public class Bon  implements Serializable {
         this.time=time;
         this.b=b;
         this.above=above;
-        this.note=note;
+        this.note="table number"+note;
         this.ID=ID;
     }
     public Bon(){
@@ -104,7 +104,6 @@ public class Bon  implements Serializable {
             return "Bon{" +
                     "time='" + time + '\'' +
                     ", b=" + b +
-                    ", date='" +
                     ", above=" + above +
                     '}';
         }
@@ -112,7 +111,7 @@ public class Bon  implements Serializable {
             return "Bon{" +
                     "time='" + time + '\'' +
                     ", b=" + b +
-                    ", above=" + above + "notes"+note+
+                    ", above=" + above + "table number"+note+
                     '}';
         }
     }

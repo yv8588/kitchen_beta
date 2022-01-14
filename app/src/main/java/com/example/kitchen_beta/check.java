@@ -70,6 +70,23 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
     public void order(View view) {
         String time=new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         String uid=AUTH.getCurrentUser().getUid();
+        AlertDialog.Builder adb=new AlertDialog.Builder(this);
+        EditText et=new EditText(this);
+        et.setHint("add table number?");
+        adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
+            /**
+             * when clicked makes preferation and adds note.
+             * <p>
+             * @param dialog the dialog.
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+             note=et.getText().toString();
+            }
+        });
+        adb.setView(et);
+        AlertDialog ad=adb.create();
+        ad.show();
         Bon b=new Bon(time,meals,false,note,ID_CREATOR.getID(uid,time));
         refBon.child(b.getID()).setValue(b);
         refActive.child(b.getID()).setValue(b);

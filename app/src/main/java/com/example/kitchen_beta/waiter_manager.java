@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,18 +30,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import javax.xml.parsers.SAXParser;
+
 public class waiter_manager extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     ArrayList<Bon>meal_read= new ArrayList<Bon>();
     ArrayList<String>meal_view= new ArrayList<String>();
+    CustomAdapterspin adps;
+    ArrayAdapter<String>adpl;
     ListView meal_list;
+    Spinner bon_spin;
+    int Above_bon=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiter_manager);
         meal_list=(ListView)findViewById(R.id.meal_list);
-        ArrayAdapter<String>adp=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,meal_view);
-        meal_list.setAdapter(adp);
-        meal_list.setOnItemSelectedListener(this);
+        bon_spin=(Spinner)findViewById(R.id.bon_Spin);
+        adps=new CustomAdapterspin(this,meal_read);
+        bon_spin.setAdapter(adps);
+        bon_spin.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -65,10 +74,7 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
             }
         };
         query.addListenerForSingleValueEvent(vel);
-        for(int i=0;i<meal_read.size();i++){
-            meal_view.add(meal_read.get(i).toString());
-        }
-        meal_list.deferNotifyDataSetChanged();
+        adps.notifyDataSetChanged();
 
     }
 
@@ -81,42 +87,16 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        AlertDialog.Builder adb=new AlertDialog.Builder(this);
-        EditText et=new EditText(this);
-        et.setHint("enter notes ");
-        adb.setNegativeButton("make permision", new DialogInterface.OnClickListener() {
-            /**
-             * when clicked makes preferation and adds note.
-             * <p>
-             * @param dialog the dialog.
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String forUse = et.getText().toString();
-                if(forUse!=null) {
-                    Bon b = meal_read.get(i);
-                    b.setNote(forUse);
-                    meal_read.set(i, b);
-                    meal_view.set(i,b.toString());
-                    refMeal.child("active_bon").setValue(b);
-                    meal_list.deferNotifyDataSetChanged();
-                }
+            ArrayList<Meal>tmp=meal_read.get(i).getB();
+            meal_view.add(meal_read.get(i).getNote());
+            meal_view.add(String.valueOf(meal_read.get(i).isAbove()));
+            for(int j=0;j<tmp.size();j++){
+                meal_view.add(tmp.get(j).toString());
             }
-        });
-        adb.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            /**
-             * when clicked gets out and saves class name.
-             * <p>
-             * @param dialog the dialog.
-             */
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        adb.setView(et);
-        AlertDialog ad=adb.create();
-        ad.show();
+            adpl=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,meal_view);
+            meal_list.setAdapter(adps);
+            meal_list.setOnItemSelectedListener(this);
+            Above_bon=i+2;
     }
 
     @Override
@@ -131,10 +111,6 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
-        menu.add("erase");
-        menu.add("show meals");
-        menu.add("waiter");
-        menu.add("add meal");
         return super.onCreateOptionsMenu(menu);
     }
     /**
@@ -181,5 +157,59 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * when clicked make certin bon above others.
+     * @param view the permission button clicked.
+     */
+    public void permission(View view) {
+        AlertDialog.Builder adb=new AlertDialog.Builder(this);
+        TextView tv=new EditText(this);
+        tv.setText("are you sure?");
+        adb.setNegativeButton("make permision", new DialogInterface.OnClickListener() {
+            /**
+             * when clicked makes preferation and adds note.
+             * <p>
+             * @param dialog the dialog.
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    Bon b = meal_read.get(Above_bon);
+                    b.setAbove(true);
+                    meal_read.set(Above_bon, b);
+                    refActive.child(b.getID()).setValue(b);
+                    adpl.notifyDataSetChanged();
+                }
+        });
+        adb.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            /**
+             * when clicked gets out and saves class name.
+             * <p>
+             * @param dialog the dialog.
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        adb.setNeutralButton("delete permision", new DialogInterface.OnClickListener() {
+            /**
+             * when clicked makes preferation and adds note.
+             * <p>
+             * @param dialog the dialog.
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Bon b = meal_read.get(Above_bon);
+                b.setAbove(false);
+                meal_read.set(Above_bon, b);
+                refActive.child(b.getID()).setValue(b);
+                adpl.notifyDataSetChanged();
+            }
+        });
+        adb.setView(tv);
+        AlertDialog ad=adb.create();
+        ad.show();
     }
 }
