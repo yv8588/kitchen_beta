@@ -19,79 +19,29 @@ android:orientation="vertical">
 
     </ListView>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list2"/>
 </LinearLayout>
 
-<LinearLayout
-android:layout_width="0dp"
-android:layout_height="match_parent"
-android:layout_weight="1"
-android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list3"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list4"/>
-</LinearLayout>
-<LinearLayout
-android:layout_width="0dp"
-android:layout_height="match_parent"
-android:layout_weight="1"
-android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list5"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list6"/>
-</LinearLayout>
-<LinearLayout
-android:layout_width="0dp"
-android:layout_height="match_parent"
-android:layout_weight="1"
-android:orientation="vertical">
+        <Spinner
+            android:id="@+id/mealSpin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6" />
 
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list7"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <ListView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="6"
-    android:id="@+id/list8"/>
-</LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
+
+</LinearLayout>

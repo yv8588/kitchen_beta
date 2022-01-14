@@ -180,6 +180,7 @@ public class addMeal extends AppCompatActivity {
         if(s.equals("remove from menu")){
             si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
             startActivity(si);
-        return super.onOptionsItemSelected(item);
     }
+        return super.onOptionsItemSelected(item);
+}
 }
