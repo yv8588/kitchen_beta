@@ -78,8 +78,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
      * @param view the button that got clicked
      */
     public void order(View view) {
-        String time=new SimpleDateFormat("yyyy.MMdd.HH.mm.ss").format(new Date());
-        time.replaceAll(".","");
+        String time=new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String uid=AUTH.getCurrentUser().getUid();
         AlertDialog.Builder adb=new AlertDialog.Builder(this);
         EditText et=new EditText(this);
@@ -93,16 +92,16 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
             @Override
             public void onClick(DialogInterface dialog, int which) {
              note=et.getText().toString();
+                Bon b=new Bon(time,meals,false,note,ID_CREATOR.getID(uid,time));
+                refBon.child(b.getID()).setValue(b);
+                refActive.child(b.getID()).setValue(b);
+                Intent si=new Intent(getApplicationContext(),waiter.class);
+                startActivity(si);
             }
         });
         adb.setView(et);
         AlertDialog ad=adb.create();
         ad.show();
-        Bon b=new Bon(time,meals,false,note,ID_CREATOR.getID(uid,time));
-        refBon.child(b.getID()).setValue(b);
-        refActive.child(b.getID()).setValue(b);
-        Intent si=new Intent(this,waiter.class);
-        startActivity(si);
     }
 
     /**

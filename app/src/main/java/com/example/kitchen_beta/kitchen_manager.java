@@ -59,10 +59,8 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
         vel=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                meal_order_main.clear();
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
-                    ArrayList<Meal>cuurentmeals=tmp.getB();
                     meal_order_main.add(tmp);
                 }
                 adp2.notifyDataSetChanged();
@@ -83,7 +81,6 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
-                    ArrayList<Meal>cuurentmeals=tmp.getB();
                     meal_order_main.add(tmp);
                 }
                 adp2.notifyDataSetChanged();

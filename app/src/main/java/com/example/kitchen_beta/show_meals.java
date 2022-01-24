@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class show_meals extends AppCompatActivity{
-    int count=0;
     LinkedList<Bon> meal_order_main,meal_order_main_clone;
     LinkedList<String>bonId;
     ValueEventListener vel,vel2;
@@ -77,7 +76,6 @@ public class show_meals extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data:snapshot.getChildren()) {
-                    count++;
                     Bon tmp=data.getValue(Bon.class);
                     meal_order_main.add(tmp);
                     if(bonId.contains(tmp.getID())){
@@ -104,7 +102,6 @@ public class show_meals extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data:snapshot.getChildren()) {
-                    count++;
                     Bon tmp=data.getValue(Bon.class);
                     meal_order_main.add(tmp);
                     if(bonId.contains(tmp.getID())){
@@ -124,10 +121,11 @@ public class show_meals extends AppCompatActivity{
         };
         query.addValueEventListener(vel2);
         meal_order_main_clone= (LinkedList<Bon>) meal_order_main.clone();
-        if(count<9&&count>-1){
-            int i=0;
-            while(i<9&&!meal_order_main.isEmpty()){
-                Bon foruse=meal_order_main.remove();
+        if(meal_order_main.size()>0){
+            for(int i=0;i<9;i++){
+                Bon foruse=meal_order_main.get(i);
+                if(foruse==null)
+                    break;
                 ArrayList<Meal>tmpl=foruse.getB();
                 ArrayList<String>bonmeal=new ArrayList<>();
                 bonmeal.add(foruse.getNote());
@@ -145,6 +143,21 @@ public class show_meals extends AppCompatActivity{
             }
         }
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (vel!=null) {
+            refActive.removeEventListener(vel);
+        }
+        unregisterReceiver(minuteUpdateRciver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startMinuteUpdater();
+    }
+
     public void startMinuteUpdater(){
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
@@ -158,12 +171,11 @@ public class show_meals extends AppCompatActivity{
                         time.replaceAll(".","");
                         allTextViews[i].setText(TIME.TimeToString(TIME.TimetoInt(time)-TIME.TimetoInt(meal_order_main_clone.get(i).getTime().substring(9))));
                     }
-                    else {
-                        if(all_adapters[i]==null){
-                            meal_order_main_clone.remove(i);
-                        }
-                        meal_order_main_clone= (LinkedList<Bon>) meal_order_main.clone();
-                        Bon tmp=meal_order_main.remove(i);
+                    else if(all_adapters[i].getCount()==0){
+                        meal_order_main_clone.remove(i);
+                    }
+                    else{
+                        Bon tmp=meal_order_main.get(i);
                         ArrayList<String>bonmeal=new ArrayList<>();
                         ArrayList<Meal>tmpl=tmp.getB();
                         bonmeal.add(tmp.getNote());
@@ -250,19 +262,5 @@ public class show_meals extends AppCompatActivity{
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (vel!=null) {
-            refActive.removeEventListener(vel);
-        }
-        unregisterReceiver(minuteUpdateRciver);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startMinuteUpdater();
     }
 }
