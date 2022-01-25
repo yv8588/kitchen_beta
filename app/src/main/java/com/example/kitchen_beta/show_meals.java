@@ -166,15 +166,7 @@ public class show_meals extends AppCompatActivity{
             public void onReceive(Context context, Intent intent) {
                 int i=0;
                 while(i<9){
-                    if(all_adapters[i]!=null&&all_adapters[i].getCount()!=0){
-                        String time=new SimpleDateFormat("HH.mm.ss").format(new Date());
-                        time.replaceAll(".","");
-                        allTextViews[i].setText(TIME.TimeToString(TIME.TimetoInt(time)-TIME.TimetoInt(meal_order_main_clone.get(i).getTime().substring(9))));
-                    }
-                    else if(all_adapters[i].getCount()==0){
-                        meal_order_main_clone.remove(i);
-                    }
-                    else{
+                    if(all_adapters[i]==null){
                         Bon tmp=meal_order_main.get(i);
                         ArrayList<String>bonmeal=new ArrayList<>();
                         ArrayList<Meal>tmpl=tmp.getB();
@@ -184,6 +176,21 @@ public class show_meals extends AppCompatActivity{
                             bonmeal.add(tmpl.get(k).toString());
                         }
                         all_adapters[i]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
+                    }
+                    else if(all_adapters[i].getCount()!=0){
+                        String time=new SimpleDateFormat("HHmmss").format(new Date());
+                        allTextViews[i].setText(TIME.TimeToString(TIME.TimetoInt(time)-TIME.TimetoInt(meal_order_main_clone.get(i).getTime().substring(9))));
+                        Bon tmp=meal_order_main_clone.get(i);
+                        if(tmp.getShow().contains(false)) {
+                            for (int k = 0; k < tmp.getB().size(); k++) {
+                                if (!tmp.getShow().get(i)) {
+                                    all_adapters[i].remove(all_adapters[i].getItem(k));
+                                }
+                            }
+                        }
+                    }
+                    else if(all_adapters[i].getCount()==0){
+                        meal_order_main.remove(i);
                     }
                     i++;
                 }

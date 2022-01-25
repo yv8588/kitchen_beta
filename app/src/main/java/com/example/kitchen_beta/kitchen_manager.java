@@ -147,9 +147,9 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Bon b=meal_order_main.get(bon_delete);
-                ArrayList<Meal>tmp=b.getB();
-                tmp.remove(finalI1);
-                Bon b2=new Bon(b.getTime(),tmp,b.isAbove(),b.getNote(),b.getID());
+                ArrayList<Boolean>tmp=b.getShow();
+                tmp.set(finalI1,false);
+                Bon b2=new Bon(b.getTime(),b.getB(),b.isAbove(),b.getNote(),b.getID(),tmp);
                 refActive.child(b.getID()).setValue(b2);
             }
             });
