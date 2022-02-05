@@ -229,12 +229,6 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                     startActivity(si);
                 }
                 break;
-            case 1:
-                if(s.equals("kitchen manager")){
-                    si=new Intent(this, kitchen_manager.class);
-                    startActivity(si);
-                }
-                break;
             case 2:
                 if(s.equals("waiter manager")){
                     si=new Intent(this, waiter_manager.class);

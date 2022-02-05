@@ -39,14 +39,14 @@
             android:id="@+id/bon_Spin"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6" />
+            android:layout_weight="4" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="make above"
-            android:onClick="permission"/>
+            android:onClick="permission"
+            android:text="make above" />
 
         <Space
             android:layout_width="match_parent"

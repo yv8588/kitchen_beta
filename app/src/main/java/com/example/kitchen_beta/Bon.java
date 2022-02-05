@@ -12,7 +12,7 @@ public class Bon  implements Serializable {
     private String ID;
 
     /**
-     * creats new bon.
+     * creates new bon.
      * @param time the time the bon was created.
      * @param b the meals in the bon.
      * @param above is the meal praioritized.
@@ -24,6 +24,7 @@ public class Bon  implements Serializable {
         this.above=above;
         this.note="table number"+note;
         this.ID=ID;
+        show=new ArrayList<>();
         for(int i=0;i<b.size();i++){
             show.add(true);
         }

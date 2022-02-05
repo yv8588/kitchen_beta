@@ -201,7 +201,6 @@ EditText mail,password;
                     si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
                     startActivity(si);
                 }
-
                 break;
         }
         return super.onOptionsItemSelected(item);

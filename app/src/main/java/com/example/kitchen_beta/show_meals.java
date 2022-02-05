@@ -38,7 +38,7 @@ public class show_meals extends AppCompatActivity{
     ValueEventListener vel,vel2;
     ListView list1,list2,list3,list4,list5,list6,list7,list8;
     TextView time1,time2,time3,time4,time5,time6,time7,time8;
-    ArrayAdapter<String>[]all_adapters;
+    ArrayAdapter<String>[] all_adapters;
     BroadcastReceiver minuteUpdateRciver;
     ListView[] all_lists;
     TextView[]allTextViews;
@@ -75,6 +75,7 @@ public class show_meals extends AppCompatActivity{
         vel=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                meal_order_main.clear();
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
                     meal_order_main.add(tmp);
@@ -103,13 +104,13 @@ public class show_meals extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data:snapshot.getChildren()) {
                     Bon tmp=data.getValue(Bon.class);
-                    meal_order_main.add(tmp);
                     if(bonId.contains(tmp.getID())){
                         int i=bonId.indexOf(tmp.getID());
                         meal_order_main.add(i,tmp);
                     }
                     else {
                         bonId.add(tmp.getID());
+                        meal_order_main.add(tmp);
                     }
                 }
             }
@@ -120,12 +121,10 @@ public class show_meals extends AppCompatActivity{
             }
         };
         query.addValueEventListener(vel2);
-        meal_order_main_clone= (LinkedList<Bon>) meal_order_main.clone();
         if(meal_order_main.size()>0){
-            for(int i=0;i<9;i++){
-                Bon foruse=meal_order_main.get(i);
-                if(foruse==null)
-                    break;
+            int n = 0;
+            Bon foruse=meal_order_main.get(n);
+            while (n<9 && foruse!=null) {
                 ArrayList<Meal>tmpl=foruse.getB();
                 ArrayList<String>bonmeal=new ArrayList<>();
                 bonmeal.add(foruse.getNote());
@@ -133,13 +132,10 @@ public class show_meals extends AppCompatActivity{
                 for(int k=0;k<tmpl.size();k++){
                     bonmeal.add(tmpl.get(k).toString());
                 }
-                all_adapters[i]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
-                i++;
-            }
-            int j=0;
-            while(j<9&&all_adapters[j]!=null){
-                all_lists[j].setAdapter(all_adapters[j]);
-                j++;
+                all_adapters[n]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
+                all_lists[n].setAdapter(all_adapters[n]);
+                n++;
+                foruse=meal_order_main.get(n);
             }
         }
     }
@@ -165,7 +161,7 @@ public class show_meals extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 int i=0;
-                while(i<9){
+                while(i<9&&meal_order_main.get(i)!=null){
                     if(all_adapters[i]==null){
                         Bon tmp=meal_order_main.get(i);
                         ArrayList<String>bonmeal=new ArrayList<>();
@@ -176,6 +172,7 @@ public class show_meals extends AppCompatActivity{
                             bonmeal.add(tmpl.get(k).toString());
                         }
                         all_adapters[i]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
+                        all_lists[i].setAdapter(all_adapters[i]);
                     }
                     else if(all_adapters[i].getCount()!=0){
                         String time=new SimpleDateFormat("HHmmss").format(new Date());
@@ -188,9 +185,6 @@ public class show_meals extends AppCompatActivity{
                                 }
                             }
                         }
-                    }
-                    else if(all_adapters[i].getCount()==0){
-                        meal_order_main.remove(i);
                     }
                     i++;
                 }
@@ -240,12 +234,16 @@ public class show_meals extends AppCompatActivity{
             }
         };
         query.addListenerForSingleValueEvent(vel);
-        if(s.equals("credit")) {
+        if(s.equals("credits")) {
             si = new Intent(this,credits.class);
             startActivity(si);
         }
+        else if(s.equals("sign in")){
+            si = new Intent(this,MainActivity.class);
+            startActivity(si);
+        }
         else if(s.equals("log in")) {
-            si = new Intent(this,credits.class);
+            si = new Intent(this,SignIn.class);
             startActivity(si);
         }
         else if(s.equals("waiter")){

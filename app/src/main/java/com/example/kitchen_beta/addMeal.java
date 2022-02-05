@@ -189,7 +189,11 @@ public class addMeal extends AppCompatActivity {
             si=new Intent(this, erase.class);
             startActivity(si);
         }
-        if(s.equals("remove from menu")){
+        else  if(s.equals("waiter")){
+            si=new Intent(this, waiter_manager.class);
+            startActivity(si);
+        }
+        else if (s.equals("remove from menu")){
             si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
             startActivity(si);
     }
