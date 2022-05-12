@@ -18,7 +18,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class credits extends AppCompatActivity {
-
+    int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class credits extends AppCompatActivity {
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                        type =u.getType();
                 }
             }
 
@@ -78,7 +78,7 @@ public class credits extends AppCompatActivity {
             si = new Intent(this,show_meals.class);
             startActivity(si);
         }
-        switch (t[0]){
+        switch (type){
             case 0:
                 if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
@@ -104,10 +104,6 @@ public class credits extends AppCompatActivity {
                     si = new Intent(this,show_meals.class);
                     startActivity(si);
                 }
-                else if(s.equals("erase")){
-                    si=new Intent(this, erase.class);
-                    startActivity(si);
-                }
                 if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
@@ -116,7 +112,6 @@ public class credits extends AppCompatActivity {
                     si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
                     startActivity(si);
                 }
-
                 break;
         }
         return super.onOptionsItemSelected(item);

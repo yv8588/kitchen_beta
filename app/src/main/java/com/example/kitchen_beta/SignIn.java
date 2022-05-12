@@ -24,8 +24,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class SignIn extends AppCompatActivity {
-String p,m;
-EditText mail,password;
+    String p,m;
+    EditText mail,password;
+    Intent si;
+    User user_t = new User();
+    int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,31 +89,13 @@ EditText mail,password;
     public void moveUser(Context context){
         FirebaseUser user=AUTH.getCurrentUser();
         if( user !=null){
-            /**
-             * gets the user object in the form of an object then casted to user.
-             */
-            ValueEventListener vel=new ValueEventListener() {
+            Query query=refUser.orderByChild("user_id").equalTo(user.getUid()).limitToFirst(1);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User[]a=new User[1];
-                    Intent si;
                     if(snapshot.exists()) {
                         for (DataSnapshot data : snapshot.getChildren()) {
-                            a[0] = data.getValue(User.class);
-                        }
-                        switch (a[0].getType()) {
-                            case 0:
-                                si = new Intent(context, com.example.kitchen_beta.waiter.class);
-                                startActivity(si);
-                                break;
-                            case 1:
-                                si = new Intent(context, kitchen_manager.class);
-                                startActivity(si);
-                                break;
-                            case 2:
-                                si = new Intent(context, waiter_manager.class);
-                                startActivity(si);
-                                break;
+                            user_t = data.getValue(User.class);
                         }
                     }
                 }
@@ -118,9 +104,22 @@ EditText mail,password;
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            };
-            Query query=refUser.orderByChild("user_id").equalTo(user.getUid()).limitToFirst(1);
-            query.addListenerForSingleValueEvent(vel);
+            });
+            int t =  user_t.getType();
+            switch (t) {
+                case 0:
+                    si = new Intent(context, com.example.kitchen_beta.waiter.class);
+                    startActivity(si);
+                    break;
+                case 1:
+                    si = new Intent(context, kitchen_manager.class);
+                    startActivity(si);
+                    break;
+                case 2:
+                    si = new Intent(context, waiter_manager.class);
+                    startActivity(si);
+                    break;
+            }
         }
     }
     /**
@@ -131,8 +130,6 @@ EditText mail,password;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
-        Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -145,7 +142,7 @@ EditText mail,password;
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                        type =u.getType();
                 }
             }
 
@@ -163,20 +160,19 @@ EditText mail,password;
             si = new Intent(this,show_meals.class);
             startActivity(si);
         }
-        switch (t[0]){
-            case 0:
-                if(s.equals("waiter")){
-                    si=new Intent(this, com.example.kitchen_beta.waiter.class);
-                    startActivity(si);
-                }
-                break;
-            case 1:
-                if(s.equals("kitchen manager")){
-                    si=new Intent(this, kitchen_manager.class);
-                    startActivity(si);
-                }
-                break;
-            case 2:
+        else if(type==0) {
+            if (s.equals("waiter")) {
+                si = new Intent(this, com.example.kitchen_beta.waiter.class);
+                startActivity(si);
+            }
+        }
+        else if(type==1) {
+            if (s.equals("kitchen manager")) {
+                si = new Intent(this, kitchen_manager.class);
+                startActivity(si);
+            }
+        }
+        else if(type==2){
                 if(s.equals("waiter manager")){
                     si=new Intent(this, waiter_manager.class);
                     startActivity(si);
@@ -189,19 +185,14 @@ EditText mail,password;
                     si = new Intent(this,show_meals.class);
                     startActivity(si);
                 }
-                else if(s.equals("erase")){
-                    si=new Intent(this, erase.class);
-                    startActivity(si);
-                }
-                if(s.equals("waiter")){
+                else if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
                 }
-                if(s.equals("remove from menu")){
+                else if(s.equals("remove from menu")){
                     si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
                     startActivity(si);
                 }
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

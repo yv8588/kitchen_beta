@@ -15,9 +15,10 @@ public class User {
         this.user_name=user_name;
         this.type=type;
     }
-
+    /**
+     * default constractor.
+     */
     public User() {
-
     }
 
     /**

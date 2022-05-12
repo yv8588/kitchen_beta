@@ -38,6 +38,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     ArrayList<Meal>drink=new ArrayList<>();
     ArrayList<Meal>check=new ArrayList<>();
     String type;
+    int type_m;
     ValueEventListener vel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +155,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
      * @param adapterView the adapter of the list item.
      * @param view the list item clicked
      * @param i the place in the list.
-     * @param l
+     * @param l the row in long.
      */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -266,7 +267,6 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
         Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -279,7 +279,7 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                        type_m =u.getType();
                 }
             }
 
@@ -294,22 +294,20 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             startActivity(si);
         }
         else if(s.equals("log in")) {
-            si = new Intent(this,credits.class);
+            si = new Intent(this,SignIn.class);
             startActivity(si);
         }
-        else if(s.equals("waiter")){
-            si=new Intent(this, com.example.kitchen_beta.waiter.class);
+        else if(s.equals("show meals")){
+            si=new Intent(this, show_meals.class);
+            Toast.makeText(this, "bye", Toast.LENGTH_SHORT).show();
             startActivity(si);
         }
-        else  if((t[0])==2) {
+        else  if(type_m==2) {
             if (s.equals("waiter manager")) {
                 si = new Intent(this, waiter_manager.class);
                 startActivity(si);
             } else if (s.equals("add meal")) {
                 si = new Intent(this, addMeal.class);
-                startActivity(si);
-            } else if (s.equals("erase")) {
-                si = new Intent(this, erase.class);
                 startActivity(si);
             }
             else if(s.equals("remove from menu")){
@@ -318,11 +316,5 @@ public class waiter extends AppCompatActivity implements AdapterView.OnItemClick
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
     }
 }

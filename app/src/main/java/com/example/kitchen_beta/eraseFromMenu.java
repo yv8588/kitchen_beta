@@ -33,6 +33,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
     ValueEventListener vel;
     ListView meal_list;
     String type="";
+    int type_m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,27 +73,40 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
         refMeal.addValueEventListener(vel);
     }
 
+    /**
+     * when the button get clicked shows the drinks menu.
+     * @param view the drink button got clicked.
+     */
     public void Drink(View view) {
         CustomAdapter customadp = new CustomAdapter(getApplicationContext(), drink);
         meal_list.setAdapter(customadp);
         meal_list.setOnItemClickListener(this);
         type="drink";
     }
-
+    /**
+     * when the button get clicked shows the desert menu.
+     * @param view the desert button got clicked.
+     */
     public void Desert(View view) {
         CustomAdapter customadp = new CustomAdapter(getApplicationContext(), desert);
         meal_list.setAdapter(customadp);
         meal_list.setOnItemClickListener(this);
         type="desert";
     }
-
+    /**
+     * when the button get clicked shows the main dishes menu.
+     * @param view the main dishes button got clicked.
+     */
     public void Mainm(View view) {
          customadp = new CustomAdapter(getApplicationContext(), main);
         meal_list.setAdapter(customadp);
         meal_list.setOnItemClickListener(this);
         type="main";
     }
-
+    /**
+     * when the button get clicked shows the appetisers menu.
+     * @param view the first button got clicked.
+     */
     public void first(View view) {
         CustomAdapter customadp = new CustomAdapter(getApplicationContext(), first);
         meal_list.setAdapter(customadp);
@@ -101,6 +115,13 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    /**
+     *
+     * @param adapterView the adapter of the list who is shown(there are few).
+     * @param view the row view that was clicked.
+     * @param i the number of the row who got clicked.
+     * @param l the number in long.
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         AlertDialog.Builder adb=new AlertDialog.Builder(this);
@@ -187,7 +208,6 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
         Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -200,7 +220,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                        type_m =u.getType();
                 }
             }
 
@@ -222,7 +242,7 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
             si = new Intent(this,show_meals.class);
             startActivity(si);
         }
-        switch (t[0]){
+        switch (type_m){
             case 0:
                 if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
@@ -240,10 +260,6 @@ public class eraseFromMenu extends AppCompatActivity implements AdapterView.OnIt
                 }
                 else if(s.equals("show meals")){
                     si = new Intent(this,show_meals.class);
-                    startActivity(si);
-                }
-                else if(s.equals("erase")){
-                    si=new Intent(this, erase.class);
                     startActivity(si);
                 }
                 if(s.equals("waiter")){

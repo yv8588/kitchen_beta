@@ -86,7 +86,7 @@ public class CustomAdapterspin extends BaseAdapter {
                     drinkcount++;
                 }
             }
-            date.setText(b.getTime());
+            date.setText(TIME.TimeToClear(b.getTime()));
             desert.setText("deserts" + desertCount);
             drink.setText("drinks" + drinkcount);
             first.setText("first meals" + firstCount);

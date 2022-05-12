@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     boolean prove;
     RadioButton wManager,kManager,waiter;
     int type=0;
+    int type_m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
         Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                    t[0] =u.getType();
+                    type_m =u.getType();
                 }
             }
 
@@ -200,20 +200,19 @@ public class MainActivity extends AppCompatActivity {
             si = new Intent(this,show_meals.class);
             startActivity(si);
         }
-        switch (t[0]){
-            case 0:
-                if(s.equals("waiter")){
-                    si=new Intent(this, com.example.kitchen_beta.waiter.class);
+        else if(type_m==0) {
+            if (s.equals("waiter")) {
+                si = new Intent(this, com.example.kitchen_beta.waiter.class);
+                startActivity(si);
+            }
+        }
+        else if(type_m==1) {
+                if (s.equals("kitchen manager")) {
+                    si = new Intent(this, kitchen_manager.class);
                     startActivity(si);
                 }
-                break;
-            case 1:
-                if(s.equals("kitchen manager")){
-                    si=new Intent(this, kitchen_manager.class);
-                    startActivity(si);
-                }
-                break;
-            case 2:
+            }
+        else if(type_m==2){
                 if(s.equals("waiter manager")){
                     si=new Intent(this, waiter_manager.class);
                     startActivity(si);
@@ -226,10 +225,6 @@ public class MainActivity extends AppCompatActivity {
                     si = new Intent(this,show_meals.class);
                     startActivity(si);
                 }
-                else if(s.equals("erase")){
-                    si=new Intent(this, erase.class);
-                    startActivity(si);
-                }
                 if(s.equals("waiter")){
                     si=new Intent(this, com.example.kitchen_beta.waiter.class);
                     startActivity(si);
@@ -238,8 +233,6 @@ public class MainActivity extends AppCompatActivity {
                     si=new Intent(this, com.example.kitchen_beta.eraseFromMenu.class);
                     startActivity(si);
                 }
-
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

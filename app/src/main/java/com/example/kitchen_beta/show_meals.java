@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +35,11 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class show_meals extends AppCompatActivity{
+    boolean end1=false;
+    int type;
     LinkedList<Bon> meal_order_main,meal_order_main_clone;
     LinkedList<String>bonId;
-    ValueEventListener vel,vel2;
+    ValueEventListener vel;
     ListView list1,list2,list3,list4,list5,list6,list7,list8;
     TextView time1,time2,time3,time4,time5,time6,time7,time8;
     ArrayAdapter<String>[] all_adapters;
@@ -45,8 +49,64 @@ public class show_meals extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("show_meals","onCreate started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_meals);
+
+        meal_order_main = new LinkedList<>();
+        bonId=new LinkedList<>();
+        Query query1=refActive.orderByChild("above").equalTo(true);
+        vel=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot data:snapshot.getChildren()) {
+                    Bon tmp=data.getValue(Bon.class);
+                    if(bonId.contains(tmp.getID())){
+                        int i=bonId.indexOf(tmp.getID());
+                        meal_order_main.add(i,tmp);
+                    }
+                    else {
+                        meal_order_main.add(tmp);
+                        bonId.add(tmp.getID());
+                    }
+                }
+                end1=true;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+        query1.addValueEventListener(vel);
+        Query query=refActive.orderByChild("above").equalTo(false);
+        query.addValueEventListener(vel);
+        setViews();
+        all_adapters=new ArrayAdapter[8];
+        while(!end1){
+
+        }
+        if(meal_order_main.size()>0){
+            int n = 0;
+            Bon foruse=meal_order_main.get(n);
+            while (n<9 && foruse!=null&&n<meal_order_main.size()) {
+                ArrayList<Meal>tmpl=foruse.getB();
+                ArrayList<String>bonmeal=new ArrayList<>();
+                bonmeal.add(foruse.getNote());
+                bonmeal.add(foruse.getTime());
+                for(int k=0;k<tmpl.size();k++){
+                    bonmeal.add(tmpl.get(k).toString());
+                }
+                all_adapters[n]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
+                all_lists[n].setAdapter(all_adapters[n]);
+                n++;
+                foruse=meal_order_main.get(n);
+            }
+        }
+    }
+
+    /**
+     * sets all views.
+     */
+    private void setViews() {
         list1=(ListView)findViewById(R.id.list1);
         list2=(ListView)findViewById(R.id.list2);
         list3=(ListView)findViewById(R.id.list3);
@@ -65,81 +125,12 @@ public class show_meals extends AppCompatActivity{
         time8=(TextView)findViewById(R.id.time8);
         all_lists= new ListView[]{list1, list2, list3, list4, list5, list6, list7, list8};
         allTextViews= new TextView[]{time1,time2,time3,time4,time5,time6,time7,time8};
-        meal_order_main = new LinkedList<>();
-        bonId=new LinkedList<>();
-        all_adapters=new ArrayAdapter[8];
-        Query query1=refActive.orderByChild("above");
-        /**
-         * gets the user object in the form of an object then casted to user.
-         */
-        vel=new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                meal_order_main.clear();
-                for(DataSnapshot data:snapshot.getChildren()) {
-                    Bon tmp=data.getValue(Bon.class);
-                    meal_order_main.add(tmp);
-                    if(bonId.contains(tmp.getID())){
-                        int i=bonId.indexOf(tmp.getID());
-                        meal_order_main.add(i,tmp);
-                    }
-                    else {
-                        bonId.add(tmp.getID());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        query1.addValueEventListener(vel);
-        Query query=refActive.orderByChild("time");
-        /**
-         * gets the user object in the form of an object then casted to user.
-         */
-        vel2=new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot data:snapshot.getChildren()) {
-                    Bon tmp=data.getValue(Bon.class);
-                    if(bonId.contains(tmp.getID())){
-                        int i=bonId.indexOf(tmp.getID());
-                        meal_order_main.add(i,tmp);
-                    }
-                    else {
-                        bonId.add(tmp.getID());
-                        meal_order_main.add(tmp);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        query.addValueEventListener(vel2);
-        if(meal_order_main.size()>0){
-            int n = 0;
-            Bon foruse=meal_order_main.get(n);
-            while (n<9 && foruse!=null) {
-                ArrayList<Meal>tmpl=foruse.getB();
-                ArrayList<String>bonmeal=new ArrayList<>();
-                bonmeal.add(foruse.getNote());
-                bonmeal.add(foruse.getTime());
-                for(int k=0;k<tmpl.size();k++){
-                    bonmeal.add(tmpl.get(k).toString());
-                }
-                all_adapters[n]=new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,bonmeal);
-                all_lists[n].setAdapter(all_adapters[n]);
-                n++;
-                foruse=meal_order_main.get(n);
-            }
-        }
     }
+
     @Override
+    /**
+     * when activity pause shuts down the listener and the broadcast receiver.
+     */
     protected void onPause() {
         super.onPause();
         if (vel!=null) {
@@ -149,11 +140,25 @@ public class show_meals extends AppCompatActivity{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    /**
+     * when activity resume starts the receiver.
+     */
+//    protected void onResume() {
+//        super.onResume();
+//        Log.d("show_meals","onResume started");
+//        startMinuteUpdater();
+//        Log.d("show_meals","onResume ended");
+//    }
+    protected void onStart() {
+        super.onStart();
+        Log.d("show_meals","onStart started");
         startMinuteUpdater();
+        Log.d("show_meals","onStart ended");
     }
 
+    /**
+     * the broadcast receiver actions every minute
+     */
     public void startMinuteUpdater(){
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
@@ -161,8 +166,8 @@ public class show_meals extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 int i=0;
-                while(i<9&&meal_order_main.get(i)!=null){
-                    if(all_adapters[i]==null){
+                while(i<9&&i<meal_order_main.size()){
+                    if(all_adapters[i]==null&&meal_order_main.get(i)!=null){
                         Bon tmp=meal_order_main.get(i);
                         ArrayList<String>bonmeal=new ArrayList<>();
                         ArrayList<Meal>tmpl=tmp.getB();
@@ -176,7 +181,7 @@ public class show_meals extends AppCompatActivity{
                     }
                     else if(all_adapters[i].getCount()!=0){
                         String time=new SimpleDateFormat("HHmmss").format(new Date());
-                        allTextViews[i].setText(TIME.TimeToString(TIME.TimetoInt(time)-TIME.TimetoInt(meal_order_main_clone.get(i).getTime().substring(9))));
+                        allTextViews[i].setText(TIME.TimeToString(TIME.TimetoInt(time)-(TIME.TimetoInt(meal_order_main_clone.get(i).getTime().substring(9)))));
                         Bon tmp=meal_order_main_clone.get(i);
                         if(tmp.getShow().contains(false)) {
                             for (int k = 0; k < tmp.getB().size(); k++) {
@@ -211,7 +216,6 @@ public class show_meals extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
         Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -224,7 +228,7 @@ public class show_meals extends AppCompatActivity{
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                        type =u.getType();
                 }
             }
 
@@ -250,15 +254,12 @@ public class show_meals extends AppCompatActivity{
             si=new Intent(this, com.example.kitchen_beta.waiter.class);
             startActivity(si);
         }
-        else  if((t[0])==2) {
+        else  if(type==2) {
             if (s.equals("waiter manager")) {
                 si = new Intent(this, waiter_manager.class);
                 startActivity(si);
             } else if (s.equals("add meal")) {
                 si = new Intent(this, addMeal.class);
-                startActivity(si);
-            } else if (s.equals("erase")) {
-                si = new Intent(this, erase.class);
                 startActivity(si);
             }
             else if(s.equals("remove from menu")){

@@ -35,6 +35,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
     ListView checklist;
     ArrayList<String>CheckS;
     Double price;
+    int type;
     ArrayList<Meal>meals;
     String note;
     ArrayAdapter<String>adpCheck;
@@ -171,7 +172,6 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String uId="";
         Intent si;
-        int[] t = new int[1];
         String s=item.getTitle().toString();
         FirebaseUser user=AUTH.getCurrentUser();
         if(user!=null){
@@ -184,7 +184,7 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
                 for(DataSnapshot data:snapshot.getChildren()) {
                     User u=data.getValue(User.class);
                     if(u!=null)
-                        t[0] =u.getType();
+                         type=u.getType();
                 }
             }
 
@@ -214,15 +214,12 @@ public class check extends AppCompatActivity implements AdapterView.OnItemClickL
             si=new Intent(this,eraseFromMenu.class);
             startActivity(si);
         }
-        else  if((t[0])==2) {
+        else  if(type==2) {
             if (s.equals("waiter manager")) {
                 si = new Intent(this, waiter_manager.class);
                 startActivity(si);
             } else if (s.equals("add meal")) {
                 si = new Intent(this, addMeal.class);
-                startActivity(si);
-            } else if (s.equals("erase")) {
-                si = new Intent(this, erase.class);
                 startActivity(si);
             }
             else if(s.equals("remove from menu")){

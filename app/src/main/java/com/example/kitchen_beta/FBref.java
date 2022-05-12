@@ -7,6 +7,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class FBref {
+    /**
+     * class of firebase references.
+     */
     public static FirebaseDatabase FBDB = FirebaseDatabase.getInstance();
     public static DatabaseReference refUser=FBDB.getReference("users");
     public static DatabaseReference refBon=FBDB.getReference("bon");

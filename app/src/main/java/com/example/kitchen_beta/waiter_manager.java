@@ -83,7 +83,7 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
      * @param adapterView the adapter.
      * @param view the specific row view.
      * @param i row number int.
-     * @param l
+     * @param l row in long.
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -140,10 +140,6 @@ public class waiter_manager extends AppCompatActivity implements AdapterView.OnI
         }
         else if(s.equals("show meals")){
             si=new Intent(this, show_meals.class);
-            startActivity(si);
-        }
-        else if(s.equals("erase")){
-            si=new Intent(this, erase.class);
             startActivity(si);
         }
         else if(s.equals("add meal")){

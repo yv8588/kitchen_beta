@@ -21,4 +21,13 @@ public class TIME {
         String time=t.toString();
         return time;
     }
+
+    /**
+     *
+     * @param t time in string.
+     * @return time in int.
+     */
+    public static String TimeToClear(String t){
+        return t.substring(0,4)+"/"+t.substring(4,8)+"/"+t.substring(8,12);
+    }
 }

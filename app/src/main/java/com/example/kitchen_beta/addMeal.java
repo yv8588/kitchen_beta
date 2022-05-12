@@ -84,6 +84,10 @@ public class addMeal extends AppCompatActivity {
         Toast.makeText(addMeal.this, "enter all meal info", Toast.LENGTH_SHORT).show();
     }
 }
+
+    /**
+     * @return meal type
+     */
     public String Type(){
         if (first.isChecked()) {
             type = "first";
@@ -183,10 +187,6 @@ public class addMeal extends AppCompatActivity {
         }
         else if(s.equals("show meals")){
             si=new Intent(this, show_meals.class);
-            startActivity(si);
-        }
-        else if(s.equals("erase")){
-            si=new Intent(this, erase.class);
             startActivity(si);
         }
         else  if(s.equals("waiter")){

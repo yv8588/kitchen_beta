@@ -21,6 +21,10 @@ public class Meal implements Serializable {
         this.image=image;
         this.category=category;
     }
+
+    /**
+     * default constractor.
+     */
     public Meal(){
 
     }
@@ -93,11 +97,6 @@ public class Meal implements Serializable {
 
     @Override
     public String toString() {
-        return "Meal{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", image='" + image + '\'' +
-                ", category='" + category + '\'' +about+'\''+
-                '}';
+        return name+""+category+""+price ;
     }
 }

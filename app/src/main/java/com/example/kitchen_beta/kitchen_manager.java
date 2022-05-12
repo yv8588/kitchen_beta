@@ -192,7 +192,7 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
      * @param adapterView the adapter whos item clicked.
      * @param view the row.
      * @param i place int.
-     * @param l
+     * @param l the row in long.
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
