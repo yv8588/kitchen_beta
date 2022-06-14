@@ -1,9 +1,7 @@
 package com.example.kitchen_beta;
 
 import static com.example.kitchen_beta.FBref.refActive;
-import static com.example.kitchen_beta.FBref.refBon;
-import static com.example.kitchen_beta.FBref.refMeal;
-import static com.example.kitchen_beta.FBref.refUser;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
 
 public class waiter_manager extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     ArrayList<Bon>meal_read= new ArrayList<Bon>();

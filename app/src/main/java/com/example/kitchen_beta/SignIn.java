@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -112,12 +111,12 @@ public class SignIn extends AppCompatActivity {
                     startActivity(si);
                     break;
                 case 1:
-                    si = new Intent(context, kitchen_manager.class);
-                    startActivity(si);
+                   Intent gi = new Intent(context, kitchen_manager.class);
+                    startActivity(gi);
                     break;
                 case 2:
-                    si = new Intent(context, waiter_manager.class);
-                    startActivity(si);
+                    Intent ki = new Intent(context, waiter_manager.class);
+                    startActivity(ki);
                     break;
             }
         }

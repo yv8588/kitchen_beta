@@ -1,7 +1,5 @@
 package com.example.kitchen_beta;
 
-import static com.example.kitchen_beta.FBref.AUTH;
-import static com.example.kitchen_beta.FBref.refMeal;
 import static com.example.kitchen_beta.FBref.storageRef;
 
 import android.content.Context;
@@ -18,7 +16,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;

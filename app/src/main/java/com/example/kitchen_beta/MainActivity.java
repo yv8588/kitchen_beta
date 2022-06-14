@@ -5,12 +5,10 @@
  */
 package com.example.kitchen_beta;
 import static com.example.kitchen_beta.FBref.AUTH;
-import static com.example.kitchen_beta.FBref.refActive;
 import static com.example.kitchen_beta.FBref.refUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatRadioButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;

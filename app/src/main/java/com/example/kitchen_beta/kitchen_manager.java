@@ -1,8 +1,6 @@
 package com.example.kitchen_beta;
 
 import static com.example.kitchen_beta.FBref.refActive;
-import static com.example.kitchen_beta.FBref.refBon;
-import static com.example.kitchen_beta.FBref.refMeal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,21 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class kitchen_manager extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
     ArrayList<Bon> meal_order_main;
@@ -210,7 +203,7 @@ public class kitchen_manager extends AppCompatActivity implements AdapterView.On
             adp1 = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, sMeals);
             list1.setAdapter(adp1);
             bon_delete=i;
-            finalI1 = i+2;
+            finalI1 = i;
         }
 
     }

@@ -13,10 +13,6 @@
         android:title="sign in"
         android:orderInCategory="300"/>
     <item
-        android:id="@+id/show"
-        android:title="show meals"
-        android:orderInCategory="400"/>
-    <item
         android:id="@+id/wm"
         android:title="waiter manager"
         android:orderInCategory="500"/>
@@ -28,10 +24,6 @@
         android:id="@+id/waiter"
         android:title="waiter"
         android:orderInCategory="700"/>
-    <item
-        android:id="@+id/erase"
-        android:title="erase"
-        android:orderInCategory="800"/>
     <item
         android:id="@+id/del"
         android:title="remove from menu"

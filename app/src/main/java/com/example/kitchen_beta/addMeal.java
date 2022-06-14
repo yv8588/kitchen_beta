@@ -1,8 +1,6 @@
 package com.example.kitchen_beta;
 
-import static com.example.kitchen_beta.FBref.AUTH;
 import static com.example.kitchen_beta.FBref.refMeal;
-import static com.example.kitchen_beta.FBref.refUser;
 import static com.example.kitchen_beta.FBref.storageRef;
 
 import androidx.annotation.NonNull;
@@ -13,19 +11,16 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;

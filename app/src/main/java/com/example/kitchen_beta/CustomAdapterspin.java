@@ -75,7 +75,7 @@ public class CustomAdapterspin extends BaseAdapter {
             int drinkcount = 0;
             ArrayList<Meal> bons = b.getB();
             for (int j = 0; j < bons.size(); j++) {
-                Meal tmp = bons.get(i);
+                Meal tmp = bons.get(j);
                 if (tmp.getCategory().equals("first")) {
                     firstCount++;
                 } else if (tmp.getCategory().equals("main")) {
