@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 Toast.makeText(MainActivity.this,"user registered",Toast.LENGTH_SHORT).show();
             }
-            else {
-                Toast.makeText(MainActivity.this,"user registereation failed ",Toast.LENGTH_SHORT).show();
-            }
 
         });
     }

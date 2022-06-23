@@ -130,6 +130,9 @@ public class addMeal extends AppCompatActivity {
                 });
                 Meal m = new Meal(n, Double.parseDouble(p), path, type, desc);
                 refMeal.child(n).setValue(m);
+                name.setText("");
+                price.setText("");
+                des.setText("");
                 name.setHint("meal name");
                 price.setHint("meal price");
                 des.setHint("meal description");
